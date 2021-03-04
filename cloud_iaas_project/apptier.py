@@ -1,4 +1,4 @@
-from cloud_project.helper import *
+from helper import *
 
 # recieve from request sqs and get job id (image name)
 # fetch job image from S3 using job id (image name)
