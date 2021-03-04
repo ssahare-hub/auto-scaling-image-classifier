@@ -1,15 +1,10 @@
 from helper import *
 import boto3
-
-# recieve from request sqs and get job id (image name)
 sqs = boto3.client('sqs')
-# Create a SQS queue
-create_queue('SQS_QUEUE_1',
-             {'DelaySeconds': '0',
-              'MessageRetentionPeriod': '86400'}
-)
-# Get URL for SQS queue
-response = sqs.get_queue_url('SQS_QUEUE_1')
+# recieve from request sqs and get job id (image name)
+response = sqs.receive_message(QueueUrl='string')
+message = response1['Messages'][0]
+job_id = message['Body']
 # fetch job image from S3 using job id (image name)
 
 # process image using local model
