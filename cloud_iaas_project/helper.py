@@ -1,5 +1,4 @@
 # functions for AWS ->
-
 # SQS
 # create queue (if it doesn't exist)
 def create_queue(queue_name, attributes):

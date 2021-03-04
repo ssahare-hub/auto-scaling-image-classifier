@@ -1,0 +1,12 @@
+# DO NOT CHANGE VALUES FOR THIS FILE
+# EVEN OUTSIDE THIS FILE !!!!
+
+REQUEST_QUEUE_NAME = 'requests_sss'
+RESPONSE_QUEUE_NAME = 'response_sss'
+
+BUCKET_NAME = 'sss_cloud_bucket'
+
+APP_TIER_PREFIX = 'sss_app_tier_'
+
+MIN_APP_TIERS = 0
+MAX_APP_TIERS = 19
