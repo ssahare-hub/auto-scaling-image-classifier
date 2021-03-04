@@ -27,3 +27,5 @@ print(message)
 receipt_handle = message['Body']
 print(receipt_handle)
 
+response = client.get_object(IfMatch='string')
+
