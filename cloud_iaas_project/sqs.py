@@ -14,18 +14,32 @@ response = sqs.get_queue_url(QueueName='SQS_QUEUE_NAME')
 #sqs.delete_queue(QueueUrl='SQS_QUEUE_NAME')
 
 queue_url = response['QueueUrl']
-print(queue_url)
 
 # Send message to SQS queue
+'''response1 = sqs.send_message(
+    QueueUrl=queue_url,
+    DelaySeconds=0,
+    MessageBody=(
+        'Information about current vizag Times fiction bestseller for '
+    )
+)'''
 
+#print(response1['MessageId'])
 
-response1 = sqs.receive_message(QueueUrl=queue_url)
-print(response1)
+response2 = sqs.receive_message(QueueUrl=queue_url)
 
-message = response1['Messages'][0]
-print(message)
+print (response2)
+print(len(response2))
+
+message = response2['Messages'][0]
+print (message)
+
 receipt_handle = message['Body']
+
 print(receipt_handle)
 
-response = client.get_object(IfMatch='string')
-
+'''sqs.delete_message(
+    QueueUrl=queue_url,
+    ReceiptHandle=receipt_handle
+)
+print('Received and deleted message: %s' % message)'''
