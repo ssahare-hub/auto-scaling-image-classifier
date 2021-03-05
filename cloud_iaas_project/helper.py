@@ -175,16 +175,18 @@ def delete_bucket(bucket_name):
 
 # EC2
 # create instances (ami code)
-def create_instance(
-    key_name, 
-    sec_group_ids,
-    image_id = 'ami-0ee8cf7b8a34448a6', 
-    instance_type = 't2.micro', 
-    min_count = 1, 
-    max_count = 1
-):
-    pass
-
+def create_instance(key_name, sec_group_ids, image_id = 'ami-0ee8cf7b8a34448a6', instance_type = 't2.micro', min_count = 1, max_count = 1):
+    ec2 = boto3.client('ec2')
+    ec2_res = boto3.resource('ec2')
+    instances = ec2_res.create_instances(ImageId=image_id,MinCount=min_count, MaxCount=max_count, InstanceType=instance_type,KeyName=key_name,SecurityGroupIds=sec_group_ids)
+    print(instances.instance_type, instances.public_ip_address)
+    # instances = ec2_res.instances.filter(Filters=[{'Name': 'instance-state-name','Values': ['running']}])
+    # ids = []
+    # for instance in instances:
+    #     print(instance.id, instance.instance_type,'\nInstance obj ->', instance.public_ip_address)
+    #     ids.append(instance.id)
+    
+# create_instance('newkey',['sg-0c7f568aaf89e6cd9'])
 # start/stop instances ??
 def interact_with_instance(instance_id, action):
     # action can be 'start' or 'stop'
@@ -192,4 +194,8 @@ def interact_with_instance(instance_id, action):
 
 # terminate instance? (self)
 def terminate_instance(instance_id):
-    pass
+    ec2 = boto3.resource('ec2')
+    ids=[]
+    ids.append(instance_id)
+    ec2.instances.filter(InstanceIds=ids).terminate()
+# terminate_instance('i-057cfc86017734e64')
