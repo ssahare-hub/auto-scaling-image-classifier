@@ -3,11 +3,6 @@ import boto3
 from botocore.exceptions import ClientError
 import botocore
 
-import matplotlib.pyplot as plt
-
-import matplotlib.image as mpimg
-
-import numpy as np
 # functions for AWS ->
 # SQS
 # create queue (if it doesn't exist)
@@ -16,7 +11,7 @@ def create_queue(queue_name, attributes):
     sqs = boto3.resource('sqs')
     SQS_QUEUE_NAME = queue_name
     # Create a SQS queue
-    response = sqs.create_queue(QueueName=SQS_QUEUE_NAME,Attributes={'DelaySeconds': '0','MessageRetentionPeriod': '600','ReceiveMessageWaitTimeSeconds': '20'})
+    response = sqs.create_queue(QueueName=SQS_QUEUE_NAME,Attributes=attributes)
     return response.url
 
 def get_queue_attributes(queue_url, attribute_names):
@@ -30,30 +25,21 @@ def send_message(queue_url, message_attributes, message_body):
         MessageAttributes=message_attributes,
         MessageBody=message_body
     )
+    return response['MessageId']
     
 
 # recieve message from queue (wait time as a variable)
 def receive_message(queue_name):
-    # attribute_names, 
-    # max_num_message, 
-    # message_attribute_names, 
-    # visibility_timeout, 
-    # wait_time_seconds
-    print("eneters rece")
     sqs=boto3.resource('sqs')
-    # s=boto3.client('sqs')
     queue = sqs.get_queue_by_name(QueueName=queue_name)
     qurl= queue.url
-    print("printing ur", qurl)
+    print("Printing queue ur", qurl)
     for message in queue.receive_messages():
         print('{0}'.format(message.body))
-        message.delete()
         
 # delete queue??
 def delete_queue(queue_url):
-    sqs=boto3.client('sqs')
-    sqs.delete_queue(QueueUrl=queue_url)
-    print('Deleted queue', queue_url)
+    pass
 
 
 # S3
@@ -74,7 +60,7 @@ def create_bucket(bucket_name, region=None):
         return False
     return True
 
-# create_bucket('shreyapat1')
+
 # add to bucket
 def upload_file(file_name, bucket_name, object_name):
     # return success status
@@ -118,15 +104,18 @@ def read_from_bucket(bucket_name, object_name, expiration=7200):
     print(object)
 
 
-read_from_bucket('shreyapat1','cake')
 # delete from bucket
 def delete_from_bucket(bucket_name, object_name):
-    # s3 = boto3.client('s3')
     pass
 
 # delete bucket??
 def delete_bucket(bucket_name):
     pass
+    # s3=boto.connect_s3()
+    # bucket=s3.Bucket(bucket_name)
+    # for key in bucket.objects.all():
+    #     key.delete()
+    # bucket.delete()
 
 # EC2
 # create instances (ami code)
@@ -135,13 +124,8 @@ def create_instance(key_name, sec_group_ids, image_id = 'ami-0ee8cf7b8a34448a6',
     ec2_res = boto3.resource('ec2')
     instances = ec2_res.create_instances(ImageId=image_id,MinCount=min_count, MaxCount=max_count, InstanceType=instance_type,KeyName=key_name,SecurityGroupIds=sec_group_ids)
     print(instances.instance_type, instances.public_ip_address)
-    # instances = ec2_res.instances.filter(Filters=[{'Name': 'instance-state-name','Values': ['running']}])
-    # ids = []
-    # for instance in instances:
-    #     print(instance.id, instance.instance_type,'\nInstance obj ->', instance.public_ip_address)
-    #     ids.append(instance.id)
     
-# create_instance('newkey',['sg-0c7f568aaf89e6cd9'])
+    
 # start/stop instances ??
 def interact_with_instance(instance_id, action):
     # action can be 'start' or 'stop'
