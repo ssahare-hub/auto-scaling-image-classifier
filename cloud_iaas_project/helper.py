@@ -15,9 +15,6 @@ def create_queue(queue_name, attributes):
     return response.url
 
 def get_queue_attributes(queue_url, attribute_names):
-    pass
-
-def get_queue_attributes(queue_url, attribute_names):
     # returns queue attributes
     pass
 

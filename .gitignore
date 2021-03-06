@@ -3,3 +3,4 @@
 *.JPEG
 *.txt
 sqs.py
+*/__pycache__
