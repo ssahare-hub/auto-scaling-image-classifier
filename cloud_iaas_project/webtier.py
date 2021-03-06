@@ -3,32 +3,24 @@ import time
 import os
 from flask import Flask, render_template, flash, request, redirect, url_for, request
 from flask_socketio import SocketIO
-from werkzeug.utils import secure_filename
 from threading import Thread, Timer
-
-# Below import might change in production
-import constants
-from helper import *
+from werkzeug.utils import secure_filename
+from .webtier_helper import * 
+from .constants import *
+from .helper import *
 
 # constants for uploads and allowed extensions
 is_get = True
 request_queue_url = ''
 response_queue_url = ''
 images = []
-UPLOAD_FOLDER = './uploads/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 job_dictionary = {}
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 # host flask server
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 # create socket connection
 socketio = SocketIO(app)
 # allow requests from cross origin domains
@@ -61,6 +53,7 @@ def home_page():
     return render_template(
         'index.html',
         is_get=is_get,
+        job_id=job_id,
         num_recieved=len(recieved),
         num_images=len(images)
     )
@@ -75,95 +68,6 @@ def connected():
 @socketio.on('disconnect')
 def disconnected():
     print('disconnected')
-
-
-# post / upload images and start aws functions
-# aws functions using helper ->
-def process_image(image, job_id):
-    # TODO: Add uniqueness to filename
-    image_name = secure_filename(image.filename)
-
-    # store images to s3
-    print('uploading image named {}'.format(image_name))
-    # upload_file(image, constants.BUCKET_NAME, image_name)
-
-    # queue image_name in request queue
-    # TODO: Fill these and include job id somewhere!
-    message_attr = {}
-    message_body = {
-        'image_name': image_name,
-        'job_id': job_id
-    }
-    print('sending message {} to {} '.format(request_queue_url, message_body))
-    # send_message(request_queue_url, message_attr, message_body)
-
-
-def spawn_processing_apps(job_id):
-    # add a new helper function -> get_queue_attributes
-    attribute_names = 'ALL'
-    attributes = get_queue_attributes(request_queue_url, attribute_names)
-
-    # TODO: VERIFY THIS
-    queue_length = attributes['Attributes']['ApproximateNumberOfMessages']
-
-    # TODO: retrieve number of live app tiers and subtract from max_app_tiers
-    num_instances = min(queue_length, constants.MAX_APP_TIERS)
-
-    # spawn ec2 instances according to request queue length
-    create_instance(
-        constants.KEY_NAME,
-        constants.SECURITY_GROUP_ID,
-        image_id=constants.AMI_IMAGE_ID,
-        min_count=num_instances,
-        max_count=num_instances
-    )
-
-# start listening to response queue for results
-
-
-def listen_for_results(job_id):
-    attribute_names = 'ALL'
-    attributes = get_queue_attributes(response_queue_url, attribute_names)
-    # TODO: VERIFY THIS
-    queue_length = attributes['Attributes']['ApproximateNumberOfMessages']
-    results_received = 0
-    job_length = job_dictionary[job_id]
-    # TODO: IMPROVE THIS LOOP!!!!
-    while results_received != job_length:
-        # TODO: insert logic to receive messages!??
-        result = recieve_message(
-            constants.RESPONSE_QUEUE_NAME, None, None, None, None, None
-        )
-        # once received, increase counter...
-        if result is not None:
-            results_received += 1
-            # TODO: retrieve from s3? or send it back to client
-            # send results back to user using sockets
-            socketio.emit(
-                'partial_result', 'extract from result and format result-pair'
-            )
-    # when all results recieved, verify all apptier instances are stopped
-
-
-def setup_aws_resources():
-    #   create bucket if doesn't exist
-    #   might add this inside upload_file / read_from_bucket ..
-    create_bucket(constants.BUCKET_NAME)
-
-    #   TODO: Add attributes
-    attributes = {
-
-    }
-
-    #   create queue if doesn't exist
-    request_queue = create_queue(constants.REQUEST_QUEUE_NAME, attributes)
-    request_queue_url = request_queue['QUEUE_URL']
-
-    #   create queue if doesn't exist
-    response_queue = create_queue(constants.RESPONSE_QUEUE_NAME, attributes)
-    response_queue_url = response_queue['QUEUE_URL']
-
-    return request_queue_url, response_queue_url
 
 
 # main block starts here

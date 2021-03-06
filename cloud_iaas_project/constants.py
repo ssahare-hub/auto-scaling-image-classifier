@@ -17,3 +17,7 @@ AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
 MAX_APP_TIERS = 19
+
+UPLOAD_FOLDER = './uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+SECRET_KEY = 'SECRET!!!'
