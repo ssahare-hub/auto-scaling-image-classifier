@@ -3,6 +3,11 @@ import boto3
 from botocore.exceptions import ClientError
 import botocore
 
+import matplotlib.pyplot as plt
+
+import matplotlib.image as mpimg
+
+import numpy as np
 # functions for AWS ->
 # SQS
 # create queue (if it doesn't exist)
@@ -131,10 +136,10 @@ def upload_file(file_name, bucket_name, object_name):
 
 # git upload_file('/Users/shreyapatel/cloud_project/cloud_iaas_project/pictures/cake.jpg','shreyapat1', 'cake1')
 # read from bucket
-def read_from_bucket(bucket_name, object_name,expiration=7200):
+def read_from_bucket(bucket_name, object_name, expiration=7200):
     # return file from bucket
     # checkk if bucket exists
-    # s3 = boto3.resource('s3')
+    s3 = boto3.resource('s3')
     # s3_connection = boto.connect_s3()
     # bucket = s3_connection.get_bucket(bucket_name, validate=False)
     # exists = s3_connection.lookup(bucket_name)
@@ -149,21 +154,14 @@ def read_from_bucket(bucket_name, object_name,expiration=7200):
     # print(body)
     # with open('myfile.png', 'w') as f:
     #     f.write(body)
-    s3_client = boto3.client('s3')
-    try:
-        response = s3_client.generate_presigned_url('get_object',
-                                                    Params={'Bucket': bucket_name,
-                                                            'Key': object_name},
-                                                    ExpiresIn=expiration)
-    except ClientError as e:
-        logging.error(e)
-        return None
+    # s3_client = boto3.client('s3')
+    bucket=s3.Bucket(bucket_name)
+    object=bucket.Object(object_name)
+    # object.download_file(object_name)
+    print(object)
 
-    # The response contains the presigned URL
-    print(response)
-    
 
-# read_from_bucket('shreyapat1','cake')
+read_from_bucket('shreyapat1','cake')
 # delete from bucket
 def delete_from_bucket(bucket_name, object_name):
     # s3 = boto3.client('s3')
