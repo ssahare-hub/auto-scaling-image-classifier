@@ -17,6 +17,10 @@ def create_queue(queue_name, attributes):
 def get_queue_attributes(queue_url, attribute_names):
     pass
 
+def get_queue_attributes(queue_url, attribute_names):
+    # returns queue attributes
+    pass
+
 # send message to queue
 def send_message(queue_url, message_attributes, message_body):
     sqs = boto3.client('sqs')
