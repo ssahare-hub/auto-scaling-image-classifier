@@ -58,9 +58,24 @@ print(imageresult)
 os.system("aws s3 cp results.txt s3://cc-project-results/results.txt")
 # send message in response queue
 
-responsequeue = sqs.get_queue_url(QueueName='RESPONSE_QUEUE')
+responsequeue = sqs.get_queue_url(
+                QueueName='RESPONSE_QUEUE'
+)
 response_url = responsequeue['QueueUrl']
 
-sqs.send_message(QueueUrl= response_url,MessageBody= imageresult)
+sqs.send_message(
+    QueueUrl= response_url,
+    MessageBody= imageresult
+)
+
+# delete message from request queue
+
+receipt_handle = message['ReceiptHandle']
+print(receipt_handle)
+sqs.delete_message(
+    QueueUrl=job_url,
+    ReceiptHandle=receipt_handle
+)
+print('Received and deleted message: %s' % message)
 
 # check queue for any pending requests, if yes repeat'''
