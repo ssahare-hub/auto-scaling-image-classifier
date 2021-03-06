@@ -49,11 +49,11 @@ def image_classification(job_id):
     result = labels[np.array(predicted)[0]]
     return(result)
 output = image_classification(job_id)
+imageresult = job_id+"_"+output
+print(imageresult)
 print(job_id +" == "+output)
-'''delete_from_bucket(bucket_name, object_name)
-    out = open("{fname}.txt".format(fname = image_tobe_processed), "w")
 
 # store result in s3
-    os.system("aws s3 cp {fname}.txt s3://cc-project-results/{fname}.txt".format(fname = image_tobe_processed))
+os.system("aws s3 cp results.txt s3://cc-project-results/results.txt")
 # send message in response queue
 # check queue for any pending requests, if yes repeat'''
