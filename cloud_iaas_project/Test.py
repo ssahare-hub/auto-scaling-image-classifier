@@ -49,11 +49,18 @@ def image_classification(job_id):
     result = labels[np.array(predicted)[0]]
     return(result)
 output = image_classification(job_id)
-imageresult = job_id+"_"+output
+imageresult = job_id +" == "+output
 print(imageresult)
-print(job_id +" == "+output)
+
 
 # store result in s3
+#TODO write results into a text file a store in the s3
 os.system("aws s3 cp results.txt s3://cc-project-results/results.txt")
 # send message in response queue
+
+responsequeue = sqs.get_queue_url(QueueName='RESPONSE_QUEUE')
+response_url = responsequeue['QueueUrl']
+
+sqs.send_message(QueueUrl= response_url,MessageBody= imageresult)
+
 # check queue for any pending requests, if yes repeat'''
