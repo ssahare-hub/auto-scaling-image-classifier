@@ -52,8 +52,6 @@ output = image_classification(job_id)
 print(job_id +" == "+output)
 '''delete_from_bucket(bucket_name, object_name)
     out = open("{fname}.txt".format(fname = image_tobe_processed), "w")
-    os.system("python3 image_classification.py 1 > {fname}.txt".format(fname = image_tobe_processed))
-    os.system("rm -rf 1")
 
 # store result in s3
     os.system("aws s3 cp {fname}.txt s3://cc-project-results/{fname}.txt".format(fname = image_tobe_processed))
