@@ -10,12 +10,18 @@
 <div id='container'>
     {%if is_get %}
     <h1>Upload test images -></h1>
+    <h3>Only supports images with extensions in jpeg, jpg and png</h3>
     <form method=post enctype=multipart/form-data action='/'>
         <input type=file name=file multiple>
         <input type=submit value=Upload>
     </form>
     {% else %}
-    <h1>Uploading of {{num_images}} valid images completed, please wait on results... </h1>
+    <h3>
+        Upload Successful...
+    </h3>
+    <h3> 
+         {{num_images}} / {{num_recieved}} were valid images, please wait on results... 
+    </h3>
     {% endif %}
 </div>
 <p id='info'>Establishing connection with server...</p>
