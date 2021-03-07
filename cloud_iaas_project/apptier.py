@@ -26,63 +26,53 @@ def image_classification(job_id):
     result = labels[np.array(predicted)[0]]
     return(result)
 
-
-
-
 # end of function
 
 while len(queue) > 0:
 
 # 1) Getting queue url
-request_queue_url = get_queue_attributes(queue_url= REQUEST_QUEUE_NAME, attribute_names= 'url')
-job_url = request_queue_url['QueueUrl']
+    request_queue_url = get_queue_attributes(queue_url= REQUEST_QUEUE_NAME, attribute_names= 'url')
+    job_url = request_queue_url['QueueUrl']
 
 # 2) receive message from request queue
-imageid_from_request_queue_url = sqs.receive_message(
-    QueueUrl= job_url,
-    AttributeNames=['All'],
-    MessageAttributeNames=['All'],
-    MaxNumberOfMessages=1,
-    VisibilityTimeout=0,
-    WaitTimeSeconds=0
-)
-message = imageid_from_request_queue_url['Messages'][0]
-job_id = message['Body']
+    imageid_from_request_queue_url = sqs.receive_message(
+        QueueUrl= job_url,
+        AttributeNames=['All'],
+        MessageAttributeNames=['All'],
+        MaxNumberOfMessages=1,
+        VisibilityTimeout=0,
+        WaitTimeSeconds=0
+    )
+    message = imageid_from_request_queue_url['Messages'][0]
+    job_id = message['Body']
 
 # 3) get image from s3
-
-read_from_bucket(BUCKET_NAME, job_id, expiration=7200)
-#s3.Object('cc-asu-project', job_id).download_file(job_id)
+    read_from_bucket(BUCKET_NAME, job_id, expiration=7200)
 
 # 4) process image and return result
 
-image_classification_output = image_classification(job_id)
-response_queue_message = job_id +" == "+image_classification_output
+    image_classification_output = image_classification(job_id)
+    response_queue_message = job_id +" == "+image_classification_output
 
 # 5) store result in s3 and put in response queue
-
 #TODO write results into a text file a store in the s3
-file_to_store = job_id + ".txt"
-s3_writetofile = open(file_to_store, 'w')
-s3_writetofile.write(response_queue_message)
-s3_writetofile.close()
+    file_to_store = job_id + ".txt"
+    s3_writetofile = open(file_to_store, 'w')
+    s3_writetofile.write(response_queue_message)
+    s3_writetofile.close()
 
-upload_file(file_to_store, RESULTS_BUCKET, file_to_store)
-#s3.meta.client.upload_file('results.txt', 'cc-project-results', 'results.txt')
+    upload_file(file_to_store, RESULTS_BUCKET, file_to_store)
+    sendmessage_to_responsequeue = sqs.get_queue_url(
+                    QueueName= RESPONSE_QUEUE_NAME
+    )
 
-sendmessage_to_responsequeue = sqs.get_queue_url(
-                QueueName= RESPONSE_QUEUE_NAME
-)
-
-response_url = sendmessage_to_responsequeue['QueueUrl']
-send_message(response_url, message_attributes, response_queue_message)
+    response_url = sendmessage_to_responsequeue['QueueUrl']
+    send_message(response_url, message_attributes, response_queue_message)
 
 # 6) delete message from request queue
-receipt_handle = message['ReceiptHandle']
-sqs.delete_message(
-    QueueUrl=job_url,
-    ReceiptHandle=receipt_handle
-)
-print('Received and deleted message: %s' % message)
-
+    sqs.delete_message(
+        QueueUrl=job_url,
+        ReceiptHandle=receipt_handle
+    )
+    print('Received and deleted message: %s' % message)
 # check queue for any pending requests, if yes repeat'''
