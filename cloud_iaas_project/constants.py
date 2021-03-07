@@ -26,3 +26,10 @@ SECRET_KEY = 'SECRET!!!'
 
 VISIBLE_MESSAGES = 'ApproximateNumberOfMessages'
 INVISIBLE_MESSAGES = 'ApproximateNumberOfMessagesNotVisible'
+
+QUEUE_ATTRIBUTES = {
+    'FifoQueue': 'true',
+    'ReceiveMessageWaitTimeSeconds': '20',
+    'VisibilityTimeout': '60',
+    'ContentBasedDeduplication': 'true'
+}
