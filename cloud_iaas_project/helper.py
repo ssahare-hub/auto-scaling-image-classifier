@@ -137,3 +137,6 @@ def terminate_instance(instance_id):
     ids = []
     ids.append(instance_id)
     ec2_res.instances.filter(InstanceIds=ids).terminate()
+
+def give_path(path, bucket_name):
+    return ("{x}/{y}".format(x=bucket_name,y=path))
