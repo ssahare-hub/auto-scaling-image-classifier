@@ -73,10 +73,6 @@ def delete_message(queue_url, receipt_handle):
         ReceiptHandle=receipt_handle
     )
 
-# delete queue??
-def delete_queue(queue_url):
-    pass
-
 
 # S3
 
@@ -121,13 +117,6 @@ def read_from_bucket(bucket_name, object_name, expiration=7200):
     # downloading file to local from bucket
     object.download_file(object_name)
 
-# delete from bucket??
-def delete_from_bucket(bucket_name, object_name):
-    pass
-
-# delete bucket??
-def delete_bucket(bucket_name):
-    pass
 
 # EC2
 # create instances (ami code)
@@ -135,12 +124,6 @@ def create_instance(key_name, sec_group_ids, image_id='ami-0ee8cf7b8a34448a6', i
     instances = ec2_res.create_instances(ImageId=image_id, MinCount=min_count, MaxCount=max_count,
                                          InstanceType=instance_type, KeyName=key_name, SecurityGroupIds=sec_group_ids)
     print(instances.instance_type, instances.public_ip_address)
-
-
-# start/stop instances ??
-def interact_with_instance(instance_id, action):
-    # action can be 'start' or 'stop'
-    pass
 
 # terminate instance? (self)
 def terminate_instance(instance_id):
