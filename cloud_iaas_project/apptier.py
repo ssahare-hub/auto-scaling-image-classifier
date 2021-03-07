@@ -28,7 +28,18 @@ def image_classification(job_id):
 
 # end of function
 
-while len(queue) > 0:
+# GET COUNT OF VISIBLE & INVISIBLE MESSAGES
+
+def queue_length():
+    noof_visible_messages = get_one_queue_attribute(queue_url, attribute_name= VISIBLE_MESSAGES)
+    noof_invisible_messages = get_one_queue_attribute(queue_url, attribute_name= INVISIBLE_MESSAGES)
+    length = int(noof_visible_messages) + int(noof_invisible_messages)
+    return (length)
+
+queue_len = queue_length()
+
+
+while queue_len > 0:
 
 # 1) Getting queue url
     request_queue_url = get_queue_attributes(queue_url= REQUEST_QUEUE_NAME, attribute_names= 'url')
