@@ -47,7 +47,7 @@ while len(queue) > 0:
     job_id = message['Body']
 
 # 3) get image from s3
-    read_from_bucket(BUCKET_NAME, job_id, expiration=7200)
+    read_from_bucket(BUCKET_NAME, job_id)
 
 # 4) process image and return result
 
