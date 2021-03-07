@@ -3,7 +3,6 @@ from helper import *
 from constants import *
 import time
 
-
 # post / upload images and start aws functions
 # aws functions using helper ->
 def process_image(request_queue_url, path, object_name, job_id):
