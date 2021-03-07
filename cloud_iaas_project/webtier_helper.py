@@ -55,9 +55,7 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
     # TODO: IMPROVE THIS LOOP!!!!
     while results_received != job_length:
         # TODO: insert logic to receive messages!??
-        result = recieve_message(
-            RESPONSE_QUEUE_NAME, None, None, None, None, None
-        )
+        result = receive_message(RESPONSE_QUEUE_NAME)
         # once received, increase counter...
         if result is not None:
             results_received += 1
@@ -66,7 +64,7 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
             socketio.emit(
                 'partial_result', 'extract from result and format result-pair'
             )
-    # when all results recieved, verify all apptier instances are stopped
+    # TODO: when all results recieved, verify all apptier instances are stopped
 
 
 def setup_aws_resources():
