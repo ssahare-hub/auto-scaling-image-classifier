@@ -32,8 +32,11 @@ job_id = message['Body']
 print(job_id)
 
 # fetch job image from S3 using job id (image name)
-os.system("aws s3 cp s3://cc-asu-project/{x} {x}".format(x=job_id))
-os.system("aws s3 cp s3://cc-project-results/imagenet-labels.json imagenet-labels.json")
+#os.system("aws s3 cp s3://cc-asu-project/{x} {x}".format(x=job_id))
+
+s3.Object('cc-asu-project', job_id).download_file(job_id)
+
+#os.system("aws s3 cp s3://cc-project-results/imagenet-labels.json imagenet-labels.json")
 
 # process image using local model
 def image_classification(job_id):
@@ -55,7 +58,10 @@ print(imageresult)
 
 # store result in s3
 #TODO write results into a text file a store in the s3
-os.system("aws s3 cp results.txt s3://cc-project-results/results.txt")
+
+s3.meta.client.upload_file('results.txt', 'cc-project-results', 'results.txt')
+
+#os.system("aws s3 cp results.txt s3://cc-project-results/results.txt")
 # send message in response queue
 
 responsequeue = sqs.get_queue_url(
