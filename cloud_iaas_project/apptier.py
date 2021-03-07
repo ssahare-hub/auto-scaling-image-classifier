@@ -75,4 +75,3 @@ while len(queue) > 0:
         ReceiptHandle=receipt_handle
     )
     print('Received and deleted message: %s' % message)
-# check queue for any pending requests, if yes repeat'''
