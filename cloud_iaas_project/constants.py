@@ -19,7 +19,6 @@ MIN_APP_TIERS = 0
 MAX_APP_TIERS = 19
 
 UPLOAD_FOLDER = './uploads/'
-DOWNLOAD_FOLDER = './downloads/'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 SECRET_KEY = 'SECRET!!!'
