@@ -34,11 +34,9 @@ QUEUE_ATTRIBUTES = {
     'ContentBasedDeduplication': 'true'
 }
 
-USERDATA = '''
-#!/bin/bash
-nohup echo "123" > /home/ubuntu/cloud_project/test.txt
-nohup python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py &
-'''
+USERDATA = '''#!/bin/bash
+echo "123" > /home/ubuntu/cloud_project/test.txt
+nohup python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py &'''
 
 INSTANCE_PROFILE = {
     'Arn':'arn:aws:iam::115873875546:instance-profile/EC2_FA_Role',
