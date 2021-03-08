@@ -85,6 +85,7 @@ request_queue_url, response_queue_url = setup_aws_resources()
 if __name__ == '__main__':
     print('starting listening to server events')
     socketio.run(
-        app        # , host='0.0.0.0'
+        app         
+        , host='0.0.0.0'
         , port=5000
     )
