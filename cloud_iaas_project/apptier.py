@@ -77,7 +77,7 @@ print('sent message to queue')
 
 # 5) delete message from request queue
 receipt_handle = message['ReceiptHandle']
-delete_message(response_queue_url, receipt_handle)
+delete_message(request_queue_url, receipt_handle)
 print('deleted message from queue')
 
 # TODO: Add logic to terminate instance
