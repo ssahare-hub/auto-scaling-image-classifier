@@ -70,7 +70,7 @@ s3_writetofile = open(file_to_store, "w+")
 s3_writetofile.write(response_queue_message)
 s3_writetofile.close()
 
-upload_file(file_to_store, RESULTS_BUCKET, file_to_store)
+upload_file(file_to_store, BUCKET_NAME, file_to_store)
 print('uploaded file to bucket')
 send_message(response_queue_url, 'All', job_id, image_id)
 print('sent message to queue')
