@@ -139,7 +139,7 @@ def create_instance(key_name, sec_group_ids, instance_name, image_id='ami-0ee8cf
             'Tags': [
                 {
                     'Key': 'Name',
-                    'Value': instance_name+i
+                    'Value': instance_name+str(i)
                 },
             ]
         }
@@ -154,6 +154,7 @@ def create_instance(key_name, sec_group_ids, instance_name, image_id='ami-0ee8cf
             UserData=USERDATA,
             IamInstanceProfile=INSTANCE_PROFILE
         )
+        print('[INFO] [HELPER] Created 1 app-tier instance')
         # print(instances.instance_type, instances.public_ip_address)
 
 # terminate instance? (self)
