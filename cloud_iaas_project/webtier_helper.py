@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 from helper import *
 from constants import *
 import json
+import time
 
 # post / upload images and start aws functions
 # aws functions using helper ->
@@ -70,16 +71,15 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
     print('Starting to listen for {} results '.format(job_length))
     # TODO: IMPROVE THIS LOOP!!!!
     while results_received != job_length:
-        print('Trying to receive message')
+        print('Trying to receive message at {}'.format(time.time()))
         # TODO: insert logic to receive messages!??
         resp = receive_message(response_queue_url, 1)
-        message = resp['Messages'][0]
-        result = message['Body']
         # once received, increase counter...
-        if result is not None:
+        if 'Messages' in resp:
+            message = resp['Messages'][0]
+            result = message['Body']
             print('result found as {} , processing'.format(result))
             results_received += 1
-            # TODO: retrieve from s3? or send it back to client
             # send results back to user using sockets
             socketio.emit(
                 'partial_result', result
