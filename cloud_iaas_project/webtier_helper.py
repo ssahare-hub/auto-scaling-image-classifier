@@ -1,4 +1,3 @@
-from cloud_iaas_project.constants import MAX_APP_TIERS
 import boto3
 from werkzeug.utils import secure_filename
 from helper import *
