@@ -1,4 +1,4 @@
-from .helper import *
+from helper import *
 import boto3
 import os
 import torch
@@ -25,19 +25,21 @@ def image_classification(job_id):
     return(result)
 
 # end of function
-# GET COUNT OF VISIBLE & INVISIBLE MESSAGES
-
-def queue_length():
-    noof_visible_messages = get_one_queue_attribute(queue_url, attribute_name= VISIBLE_MESSAGES)
-    noof_invisible_messages = get_one_queue_attribute(queue_url, attribute_name= INVISIBLE_MESSAGES)
-    length = int(noof_visible_messages) + int(noof_invisible_messages)
-    return (length)
-
-queue_len = queue_length()
 
 #GET REQUEST & RESPONSE QUEUE URLS
 job_url = get_queue_url(REQUEST_QUEUE_NAME)
 response_queue_url = get_queue_url(RESPONSE_QUEUE_NAME)
+
+
+# GET COUNT OF VISIBLE & INVISIBLE MESSAGES
+
+def queue_length():
+    noof_visible_messages = get_one_queue_attribute(job_url, attribute_name= VISIBLE_MESSAGES)
+    noof_invisible_messages = get_one_queue_attribute(job_url, attribute_name= INVISIBLE_MESSAGES)
+    length = int(noof_visible_messages) + int(noof_invisible_messages)
+    return (length)
+
+queue_len = queue_length()
 
 
 while queue_len > 0:
