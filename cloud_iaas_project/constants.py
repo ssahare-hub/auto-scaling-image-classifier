@@ -35,8 +35,8 @@ QUEUE_ATTRIBUTES = {
 }
 
 USERDATA = '''#!/bin/bash
-sudo su
 echo $USER > /home/ubuntu/user.txt
+pip3 install boto3
 /usr/bin/python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py &'''
 
 INSTANCE_PROFILE = {
