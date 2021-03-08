@@ -55,8 +55,8 @@ def home_page():
         spawner.start()
         
         # listen_for_results(job_id)
-        # listener = Thread(target=listen_for_results, args=(socketio, response_queue_url, job_id, job_dictionary,))
-        # listener.start()
+        listener = Thread(target=listen_for_results, args=(socketio, response_queue_url, job_id, job_dictionary,))
+        listener.start()
 
     # get / render front end page
     return render_template(
