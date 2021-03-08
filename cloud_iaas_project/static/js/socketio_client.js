@@ -42,7 +42,7 @@ function connect() {
             displayMessage(DISC_MSG);
         })
         socket.on('partial_result', (result) => {
-            console.log('part_result')
+            console.log('part_result',result)
             counter+=1;
             addResults(result);
             displayMessage(CONTINUE_PROCESS_MSG+`${counter} / ${total}`);
