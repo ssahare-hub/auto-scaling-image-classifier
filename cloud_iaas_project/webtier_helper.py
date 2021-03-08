@@ -21,8 +21,6 @@ def process_image(request_queue_url, path, object_name, job_id):
 
 
 def spawn_processing_apps(request_queue_url, job_id):
-    # wait for 1 second before starting
-    # time.sleep(1)
     queue_length = get_one_queue_attribute(request_queue_url)
     queue_length = int(queue_length)
     print('queue length is {}'.format(queue_length))
@@ -31,17 +29,16 @@ def spawn_processing_apps(request_queue_url, job_id):
     num_instances = min(queue_length, MAX_APP_TIERS)
 
     # spawn ec2 instances according to request queue length
-    # response = create_instance(
-    #     KEY_NAME,
-    #     SECURITY_GROUP_ID,
-    #     image_id=AMI_IMAGE_ID,
-    #     min_count=num_instances,
-    #     max_count=num_instances
-    # )
+    response = create_instance(
+        KEY_NAME,
+        SECURITY_GROUP_ID,
+        image_id=AMI_IMAGE_ID,
+        min_count=num_instances,
+        max_count=num_instances
+    )
 
-    print('Simulating {} - running of {} instances'.format(job_id, num_instances))
-
-    # print('response for creating instances was as follows ->\n{}'.format(response))
+    print('For jobid {} - will create {} instances'.format(job_id, num_instances))
+    print('response for creating instances was as follows ->\n{}'.format(response))
 
 
 # start listening to response queue for results

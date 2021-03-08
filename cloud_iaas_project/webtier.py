@@ -52,11 +52,11 @@ def home_page():
 
         # spawn_processing_apps(req_q_url, job_id)
         spawner = Thread(target=spawn_processing_apps, args=(request_queue_url,job_id,))
-        spawner.run()
+        spawner.start()
         
         # listen_for_results(job_id)
-        # listener = Thread(target=listen_for_results, kwargs=(socketio, response_queue_url, job_id, job_dictionary,))
-        # listener.run()
+        # listener = Thread(target=listen_for_results, args=(socketio, response_queue_url, job_id, job_dictionary,))
+        # listener.start()
 
     # get / render front end page
     return render_template(
