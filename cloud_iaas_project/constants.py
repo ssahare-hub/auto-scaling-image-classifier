@@ -35,6 +35,7 @@ QUEUE_ATTRIBUTES = {
 }
 
 USERDATA = '''#!/bin/bash
+sudo su
 echo $USER > /home/ubuntu/user.txt
 python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py &'''
 
