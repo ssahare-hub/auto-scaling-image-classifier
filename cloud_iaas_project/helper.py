@@ -133,16 +133,16 @@ def get_instance_id():
 # create instances (ami code)
 def create_instance(key_name, sec_group_ids, instance_name, image_id='ami-0ee8cf7b8a34448a6', instance_type='t2.micro', min_count=1, max_count=1):
 
-    tagSpecification = {
-        'ResourceType': 'instance',
-        'Tags': [
-            {
-                'Key': 'Name',
-                'Value': instance_name
-            },
-        ]
-    }
     for i in range(max_count):
+        tagSpecification = {
+            'ResourceType': 'instance',
+            'Tags': [
+                {
+                    'Key': 'Name',
+                    'Value': instance_name+i
+                },
+            ]
+        }
         ec2_res.create_instances(
             ImageId=image_id,
             MinCount=1,

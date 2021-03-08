@@ -28,7 +28,7 @@ function connect() {
         });
 
         // on processing end, change message
-        socket.on('processing_end', (data) => {
+        socket.on('processing_end', () => {
             const END_PROCESS_MSG = 'Processing Complete, all results have loaded below -> ';
             displayMessage(END_PROCESS_MSG);
         })
