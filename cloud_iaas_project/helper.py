@@ -23,7 +23,7 @@ def create_queue(queue_name, attributes):
     # Create a SQS queue
     response = sqs_client.create_queue(
         QueueName=SQS_QUEUE_NAME, Attributes=attributes)
-    return response.url
+    return response['QueueUrl']
 
 
 def get_queue_url(queue_name):
@@ -39,6 +39,7 @@ def get_queue_attributes(queue_url):
     else:
         return {}
 
+
 def get_one_queue_attribute(queue_url, attribute_name='ApproximateNumberOfMessages'):
     attrs = get_queue_attributes(queue_url)
     if attribute_name in attrs:
@@ -48,10 +49,11 @@ def get_one_queue_attribute(queue_url, attribute_name='ApproximateNumberOfMessag
 
 
 # send message to queue
-def send_message(queue_url, message_attributes, message_body):
+def send_message(queue_url, message_attributes, message_group_id, message_body):
     response = sqs_client.send_message(
         QueueUrl=queue_url,
         MessageAttributes=message_attributes,
+        MessageGroupId=message_group_id,
         MessageBody=message_body
     )
     return response['MessageId']
@@ -73,10 +75,11 @@ def delete_message(queue_url, receipt_handle):
         ReceiptHandle=receipt_handle
     )
 
-
 # S3
 
 # create bucket (if it doesn't exist)
+
+
 def create_bucket(bucket_name, region=None):
     try:
         if region is None:
@@ -85,7 +88,7 @@ def create_bucket(bucket_name, region=None):
         else:
             location = {'LocationConstraint': region}
             s3_client.create_bucket(Bucket=bucket_name,
-                             CreateBucketConfiguration=location)
+                                    CreateBucketConfiguration=location)
     except ClientError as e:
         logging.error(e)
     # return success status
@@ -109,6 +112,8 @@ def upload_file(file_name, bucket_name, object_name):
     return True
 
 # read from bucket
+
+
 def read_from_bucket(bucket_name, object_name, expiration=7200):
     # check if bucket exists
     bucket = s3_res.Bucket(bucket_name)
@@ -126,6 +131,8 @@ def create_instance(key_name, sec_group_ids, image_id='ami-0ee8cf7b8a34448a6', i
     print(instances.instance_type, instances.public_ip_address)
 
 # terminate instance? (self)
+
+
 def terminate_instance(instance_id):
     ids = []
     ids.append(instance_id)
