@@ -72,7 +72,7 @@ s3_writetofile.close()
 
 upload_file(file_to_store, BUCKET_NAME, file_to_store)
 print('uploaded file to bucket')
-send_message(response_queue_url, {}, job_id, image_id)
+send_message(response_queue_url, {}, job_id, response_queue_message)
 print('sent message to queue')
 
 # 5) delete message from request queue
