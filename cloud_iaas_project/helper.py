@@ -28,7 +28,7 @@ def create_queue(queue_name, attributes):
 
 
 def get_queue_url(queue_name):
-    return sqs_client.get_queue_url(QueueName=queue_name)
+    return sqs_client.get_queue_url(QueueName=queue_name)['QueueUrl']
 
 
 def get_queue_attributes(queue_url):
@@ -68,7 +68,7 @@ def receive_message(queue_url, num_messages):
         MessageAttributeNames=['All'],
         MaxNumberOfMessages=num_messages,
     )
-
+    
 
 def delete_message(queue_url, receipt_handle):
     sqs_client.delete_message(
