@@ -1,7 +1,7 @@
 from werkzeug.utils import secure_filename
 from helper import *
 from constants import *
-import time
+import json
 
 # post / upload images and start aws functions
 # aws functions using helper ->
@@ -14,9 +14,13 @@ def process_image(request_queue_url, path, object_name, job_id):
     # queue image_name in request queue
     # TODO: Fill these and include job id somewhere!
     message_attr = {}
-    message_body = object_name
-    print('sending message {} to {} '.format(message_body, request_queue_url))
-    send_message(request_queue_url, message_attr, job_id, message_body)
+    body_object = {
+        'task_id':object_name,
+        'job_id':job_id
+    }
+    body = json.dumps(body_object)
+    print('sending message {} to {} '.format(body, request_queue_url))
+    send_message(request_queue_url, message_attr, job_id, body)
 
 
 def spawn_processing_apps(request_queue_url, job_id):
