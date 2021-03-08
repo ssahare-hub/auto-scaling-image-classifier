@@ -36,8 +36,7 @@ QUEUE_ATTRIBUTES = {
 
 USERDATA = '''
 #!/bin/bash
-apt-get update
-pip3 install aws awscli boto3
+nohup echo "123" > /home/ubuntu/cloud_project/test.txt
 nohup python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py &
 '''
 
