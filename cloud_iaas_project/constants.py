@@ -4,7 +4,7 @@
 REQUEST_QUEUE_NAME = 'requests_sss.fifo'
 RESPONSE_QUEUE_NAME = 'response_sss.fifo'
 
-BUCKET_NAME = 'sss_cloud_bucket'
+BUCKET_NAME = 'sss-cloud-bucket'
 
 APP_TIER_PREFIX = 'sss_app_tier_'
 

@@ -1,55 +1,52 @@
 from werkzeug.utils import secure_filename
-from .helper import *
-from .constants import *
+from helper import *
+from constants import *
+import time
 
 
 # post / upload images and start aws functions
 # aws functions using helper ->
-def process_image(request_queue_url, image, job_id):
+def process_image(request_queue_url, path, object_name, job_id):
     # TODO: Add uniqueness to filename
-    image_name = secure_filename(image.filename)
-
     # store images to s3
-    print('uploading image named {}'.format(image_name))
-    # upload_file(image, BUCKET_NAME, image_name)
+    print('uploading file {} to {}'.format(object_name, BUCKET_NAME))
+    upload_file(path, BUCKET_NAME, object_name)
 
     # queue image_name in request queue
     # TODO: Fill these and include job id somewhere!
     message_attr = {}
-    message_body = {
-        'image_name': image_name,
-        'job_id': job_id
-    }
+    message_body = object_name
     print('sending message {} to {} '.format(message_body, request_queue_url))
-    # send_message(request_queue_url, message_attr, message_body)
+    send_message(request_queue_url, message_attr, job_id, message_body)
+
 
 def spawn_processing_apps(request_queue_url, job_id):
-    # add a new helper function -> get_queue_attributes
-    attribute_names = 'ALL'
-    attributes = get_queue_attributes(request_queue_url, attribute_names)
-
-    # TODO: VERIFY THIS
-    queue_length = attributes['Attributes']['ApproximateNumberOfMessages']
+    # wait for 1 second before starting
+    # time.sleep(1)
+    queue_length = get_one_queue_attribute(request_queue_url)
+    queue_length = int(queue_length)
+    print('queue length is {}'.format(queue_length))
 
     # TODO: retrieve number of live app tiers and subtract from max_app_tiers
     num_instances = min(queue_length, MAX_APP_TIERS)
 
     # spawn ec2 instances according to request queue length
-    create_instance(
-        KEY_NAME,
-        SECURITY_GROUP_ID,
-        image_id=AMI_IMAGE_ID,
-        min_count=num_instances,
-        max_count=num_instances
-    )
+    # response = create_instance(
+    #     KEY_NAME,
+    #     SECURITY_GROUP_ID,
+    #     image_id=AMI_IMAGE_ID,
+    #     min_count=num_instances,
+    #     max_count=num_instances
+    # )
+
+    print('Simulating {} - running of {} instances'.format(job_id, num_instances))
+
+    # print('response for creating instances was as follows ->\n{}'.format(response))
 
 
 # start listening to response queue for results
 def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
-    attribute_names = 'ALL'
-    attributes = get_queue_attributes(response_queue_url, attribute_names)
-    # TODO: VERIFY THIS
-    queue_length = attributes['Attributes']['ApproximateNumberOfMessages']
+    # queue_length = get_one_queue_attribute(response_queue_url)
     results_received = 0
     job_length = job_dictionary[job_id]
     # TODO: IMPROVE THIS LOOP!!!!
@@ -72,18 +69,11 @@ def setup_aws_resources():
     #   might add this inside upload_file / read_from_bucket ..
     create_bucket(BUCKET_NAME)
 
-    #   TODO: Add attributes
-    attributes = {
-
-    }
+    #   create queue if doesn't exist
+    request_queue_url = create_queue(REQUEST_QUEUE_NAME, QUEUE_ATTRIBUTES)
 
     #   create queue if doesn't exist
-    request_queue = create_queue(REQUEST_QUEUE_NAME, attributes)
-    request_queue_url = request_queue['QUEUE_URL']
-
-    #   create queue if doesn't exist
-    response_queue = create_queue(RESPONSE_QUEUE_NAME, attributes)
-    response_queue_url = response_queue['QUEUE_URL']
+    response_queue_url = create_queue(RESPONSE_QUEUE_NAME, QUEUE_ATTRIBUTES)
 
     return request_queue_url, response_queue_url
 
