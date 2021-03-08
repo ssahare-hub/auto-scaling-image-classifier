@@ -37,10 +37,8 @@ QUEUE_ATTRIBUTES = {
 USERDATA = '''
 #!/bin/bash
 apt-get update
-pip3 install aws
-pip3 install awscli
-pip3 install boto3
-python3 ./cloud_project/cloud_iaas_project/apptier.py
+pip3 install aws awscli boto3
+nohup python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py &
 '''
 
 INSTANCE_PROFILE = {
