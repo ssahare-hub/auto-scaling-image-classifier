@@ -35,8 +35,7 @@ QUEUE_ATTRIBUTES = {
 }
 
 USERDATA = '''#!/bin/bash
-echo "123" > /home/ubuntu/cloud_project/test.txt
-nohup python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py &'''
+nohup python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py > 2>&1 &'''
 
 INSTANCE_PROFILE = {
     'Arn':'arn:aws:iam::115873875546:instance-profile/EC2_FA_Role',

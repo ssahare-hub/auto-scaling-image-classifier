@@ -65,5 +65,6 @@ function addResults(result)
     if(x){
         var y = document.createElement('p')
         y.innerText = result
+        x.appendChild(y)
     }
 }
