@@ -13,7 +13,8 @@ KEY_NAME = 'aws-kp-1'
 SECURITY_GROUP_ID = 'sg-0c3a65f539fa2240a'
 
 # replace this with custom ami with app tier logic!!
-AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
+AMI_IMAGE_ID = 'ami-0c7add90156904a2e'
+OG_AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
 MAX_APP_TIERS = 19
@@ -31,4 +32,17 @@ QUEUE_ATTRIBUTES = {
     'ReceiveMessageWaitTimeSeconds': '20',
     'VisibilityTimeout': '60',
     'ContentBasedDeduplication': 'true'
+}
+
+USERDATA = '''
+#!/bin/bash
+apt-get update
+pip3 install aws
+pip3 install awscli
+pip3 install boto3
+python3 ./cloud_project/cloud_iaas_project/apptier.py
+'''
+
+INSTANCE_PROFILE = {
+    'Arn':'arn:aws:iam::115873875546:instance-profile/EC2_FA_Role',
 }

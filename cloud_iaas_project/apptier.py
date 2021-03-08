@@ -27,15 +27,16 @@ def image_classification(job_id):
 # end of function
 
 #GET REQUEST & RESPONSE QUEUE URLS
-imageid_url = get_queue_url(REQUEST_QUEUE_NAME)
+request_queue_url = get_queue_url(REQUEST_QUEUE_NAME)
 response_queue_url = get_queue_url(RESPONSE_QUEUE_NAME)
 
 
 # GET COUNT OF VISIBLE & INVISIBLE MESSAGES
 
+# TODO: Correct queue-length as only visible messages
 def queue_length():
-    noof_visible_messages = get_one_queue_attribute(imageid_url, attribute_name= VISIBLE_MESSAGES)
-    noof_invisible_messages = get_one_queue_attribute(imageid_url, attribute_name= INVISIBLE_MESSAGES)
+    noof_visible_messages = get_one_queue_attribute(request_queue_url, attribute_name= VISIBLE_MESSAGES)
+    noof_invisible_messages = get_one_queue_attribute(request_queue_url, attribute_name= INVISIBLE_MESSAGES)
     length = int(noof_visible_messages) + int(noof_invisible_messages)
     return (length)
 
@@ -43,10 +44,10 @@ queue_len = queue_length()
 
 print (queue_len)
 
-
-#while queue_len > 0:
+# TODO: write logic to listen for requests before terminating
+# while queue_len > 0:
 # 1) receive message from request queue
-imageid_from_request_queue_url = receive_message(imageid_url, 1)
+imageid_from_request_queue_url = receive_message(request_queue_url, 1)
 message = imageid_from_request_queue_url['Messages'][0]
 body_string = message['Body']
 body = json.loads(body_string)
@@ -75,3 +76,5 @@ delete_message(response_queue_url, receipt_handle)
 queue_len = queue_length()
 
 print(queue_len)
+
+# TODO: Add logic to terminate instance
