@@ -40,9 +40,9 @@ def queue_length():
     length = int(noof_visible_messages) + int(noof_invisible_messages)
     return (length)
 
-queue_len = queue_length()
+# queue_len = queue_length()
 
-print (queue_len)
+# print (queue_len)
 
 # TODO: write logic to listen for requests before terminating
 # while queue_len > 0:
@@ -50,31 +50,34 @@ print (queue_len)
 imageid_from_request_queue_url = receive_message(request_queue_url, 1)
 message = imageid_from_request_queue_url['Messages'][0]
 body_string = message['Body']
+print('message was -> {}'.format(body_string))
 body = json.loads(body_string)
 image_id = body['task_id']
 job_id = body['job_id']
 
-
+print('reading from bucket {}'.format(BUCKET_NAME))
 # 2) get image from s3
 read_from_bucket(BUCKET_NAME, image_id)
 
 # 3) process image and return result
 image_classification_output = image_classification(image_id)
 response_queue_message = image_id +" == "+image_classification_output
+print('result classification was {}'.format(response_queue_message))
 
 # 4) store result in s3 and put in response queue
 file_to_store = image_id + ".txt"
 s3_writetofile = open(file_to_store, "w+")
 s3_writetofile.write(response_queue_message)
 s3_writetofile.close()
+
 upload_file(file_to_store, RESULTS_BUCKET, file_to_store)
+print('uploaded file to bucket')
 send_message(response_queue_url, 'All', job_id, image_id)
+print('sent message to queue')
 
 # 5) delete message from request queue
 receipt_handle = message['ReceiptHandle']
 delete_message(response_queue_url, receipt_handle)
-queue_len = queue_length()
-
-print(queue_len)
+print('deleted message from queue')
 
 # TODO: Add logic to terminate instance
