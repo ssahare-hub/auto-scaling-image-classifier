@@ -1,9 +1,14 @@
+print('starting at ->',time.time())
+import time
+print('importing helper ->',time.time())
 from helper import *
 import boto3
 import os
+print('importing torch ->',time.time())
 import torch
 import torchvision.transforms as transforms
 import torchvision.models as models
+print('importing PIL',time.time())
 from PIL import Image
 import json
 import sys
