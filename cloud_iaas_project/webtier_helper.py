@@ -1,3 +1,5 @@
+from cloud_iaas_project.constants import MAX_APP_TIERS
+import boto3
 from werkzeug.utils import secure_filename
 from helper import *
 from constants import *
@@ -29,7 +31,10 @@ def spawn_processing_apps(request_queue_url, job_id):
     print('queue length is {}'.format(queue_length))
 
     # TODO: retrieve number of live app tiers and subtract from max_app_tiers
-    num_instances = min(queue_length, MAX_APP_TIERS)
+    num_running = get_running_app_tiers_ids()
+    max_new = MAX_APP_TIERS - num_running
+    
+    num_instances = min(queue_length, max_new)
 
     # spawn ec2 instances according to request queue length
     response = create_instance(
@@ -44,6 +49,15 @@ def spawn_processing_apps(request_queue_url, job_id):
     print('response for creating instances was as follows ->\n{}'.format(response))
 
 
+def get_running_app_tiers_ids():
+    current_instance_id = get_instance_id()
+    ec2_client = boto3.client('ec2')
+    reservations = ec2_client.describe_instances()['Reservations']
+    instance_ids = [r['Instances'][0]['InstanceId'] for r in reservations]
+    if current_instance_id in instance_ids:
+        instance_ids.remove(current_instance_id)
+    return len(instance_ids)
+
 # start listening to response queue for results
 def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
     # queue_length = get_one_queue_attribute(response_queue_url)
@@ -52,14 +66,16 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
     # TODO: IMPROVE THIS LOOP!!!!
     while results_received != job_length:
         # TODO: insert logic to receive messages!??
-        result = receive_message(RESPONSE_QUEUE_NAME)
+        resp = receive_message(response_queue_url)
+        message = resp['Messages'][0]
+        result = message['Body']
         # once received, increase counter...
         if result is not None:
             results_received += 1
             # TODO: retrieve from s3? or send it back to client
             # send results back to user using sockets
             socketio.emit(
-                'partial_result', 'extract from result and format result-pair'
+                'partial_result', result
             )
     # TODO: when all results recieved, verify all apptier instances are stopped
 

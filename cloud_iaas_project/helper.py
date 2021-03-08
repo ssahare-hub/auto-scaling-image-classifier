@@ -1,7 +1,7 @@
+import socket
 import logging
 import boto3
 from botocore.exceptions import ClientError
-import botocore
 # functions for AWS ->
 
 # resource and client ojects for eacg
@@ -123,12 +123,38 @@ def read_from_bucket(bucket_name, object_name, expiration=7200):
     object.download_file(object_name)
 
 
+def get_instance_id():
+    hostname = '{}.ec2.internal'.format(socket.gethostname())
+    filters = [{'Name': 'private-dns-name', 'Values': [hostname]}]
+    response = ec2_client.describe_instances(Filters=filters)["Reservations"]
+    return response[0]['Instances'][0]['InstanceId']
+
 # EC2
 # create instances (ami code)
-def create_instance(key_name, sec_group_ids, image_id='ami-0ee8cf7b8a34448a6', instance_type='t2.micro', min_count=1, max_count=1):
-    instances = ec2_res.create_instances(ImageId=image_id, MinCount=min_count, MaxCount=max_count,
-                                         InstanceType=instance_type, KeyName=key_name, SecurityGroupIds=sec_group_ids)
-    print(instances.instance_type, instances.public_ip_address)
+def create_instance(key_name, sec_group_ids, instance_name, image_id='ami-0ee8cf7b8a34448a6', instance_type='t2.micro', min_count=1, max_count=1):
+
+    tagSpecification = {
+        'ResourceType': 'instance',
+        'Tags': [
+            {
+                'Key': 'Name',
+                'Value': instance_name
+            },
+        ]
+    }
+    for i in range(max_count):
+        ec2_res.create_instances(
+            ImageId=image_id,
+            MinCount=1,
+            MaxCount=1,
+            InstanceType=instance_type,
+            KeyName=key_name,
+            SecurityGroupIds=sec_group_ids,
+            TagSpecifications=[tagSpecification],
+            UserData=USERDATA,
+            IamInstanceProfile=INSTANCE_PROFILE
+        )
+        # print(instances.instance_type, instances.public_ip_address)
 
 # terminate instance? (self)
 
