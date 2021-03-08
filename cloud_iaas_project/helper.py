@@ -6,12 +6,15 @@ from constants import *
 # functions for AWS ->
 
 # resource and client ojects for eacg
+print('loading sqs')
 sqs_res = boto3.resource('sqs')
 sqs_client = boto3.client('sqs')
 
+print('loading s3')
 s3_client = boto3.client('s3')
 s3_res = boto3.resource('s3')
 
+print('loading ec2')
 ec2_client = boto3.client('ec2')
 ec2_res = boto3.resource('ec2')
 
