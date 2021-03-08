@@ -1,6 +1,6 @@
 from werkzeug.utils import secure_filename
-from .helper import *
-from .constants import *
+from helper import *
+from constants import *
 
 
 # post / upload images and start aws functions

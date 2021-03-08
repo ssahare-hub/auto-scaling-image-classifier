@@ -5,9 +5,9 @@ from flask import Flask, render_template, flash, request, redirect, url_for, req
 from flask_socketio import SocketIO
 from threading import Thread, Timer
 from werkzeug.utils import secure_filename
-from .webtier_helper import * 
-from .constants import *
-from .helper import *
+from webtier_helper import * 
+from constants import *
+from helper import *
 
 # constants for uploads and allowed extensions
 is_get = True
