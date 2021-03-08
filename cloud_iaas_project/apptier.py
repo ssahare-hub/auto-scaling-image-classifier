@@ -41,32 +41,37 @@ def queue_length():
 
 queue_len = queue_length()
 
+print (queue_len)
 
-while queue_len > 0:
+
+#while queue_len > 0:
 # 1) receive message from request queue
-    imageid_from_request_queue_url = receive_message(imageid_url, 1)
-    message = imageid_from_request_queue_url['Messages'][0]
-    body_string = message['Body']
-    body = json.loads(body_string)
-    image_id = body['task_id']
-    job_id = body['job_id']
+imageid_from_request_queue_url = receive_message(imageid_url, 1)
+message = imageid_from_request_queue_url['Messages'][0]
+body_string = message['Body']
+body = json.loads(body_string)
+image_id = body['task_id']
+job_id = body['job_id']
 
 
 # 2) get image from s3
-    read_from_bucket(BUCKET_NAME, image_id)
+read_from_bucket(BUCKET_NAME, image_id)
 
 # 3) process image and return result
-    image_classification_output = image_classification(image_id)
-    response_queue_message = image_id +" == "+image_classification_output
+image_classification_output = image_classification(image_id)
+response_queue_message = image_id +" == "+image_classification_output
 
 # 4) store result in s3 and put in response queue
-    file_to_store = image_id + ".txt"
-    s3_writetofile = open(file_to_store, "w+")
-    s3_writetofile.write(response_queue_message)
-    s3_writetofile.close()
-    upload_file(file_to_store, RESULTS_BUCKET, file_to_store)
-    send_message(response_queue_url, 'All', job_id, image_id)
+file_to_store = image_id + ".txt"
+s3_writetofile = open(file_to_store, "w+")
+s3_writetofile.write(response_queue_message)
+s3_writetofile.close()
+upload_file(file_to_store, RESULTS_BUCKET, file_to_store)
+send_message(response_queue_url, 'All', job_id, image_id)
 
 # 5) delete message from request queue
-    receipt_handle = message['ReceiptHandle']
-    delete_message(response_queue_url, receipt_handle)
+receipt_handle = message['ReceiptHandle']
+delete_message(response_queue_url, receipt_handle)
+queue_len = queue_length()
+
+print(queue_len)
