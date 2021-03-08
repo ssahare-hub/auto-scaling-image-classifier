@@ -68,20 +68,26 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
     results_received = 0
     job_length = job_dictionary[job_id]
     socketio.emit('processing_start', job_length)
+    print('Starting to listen for {} results '.format(job_length))
     # TODO: IMPROVE THIS LOOP!!!!
     while results_received != job_length:
+        print('Trying to receive message')
         # TODO: insert logic to receive messages!??
         resp = receive_message(response_queue_url)
         message = resp['Messages'][0]
         result = message['Body']
         # once received, increase counter...
         if result is not None:
+            print('result found as {} , processing'.format(result))
             results_received += 1
             # TODO: retrieve from s3? or send it back to client
             # send results back to user using sockets
             socketio.emit(
                 'partial_result', result
             )
+        print('-'*30)
+    print('processing has ended for job with {} results'.format(job_length))
+    print('-'*50)
     socketio.emit('processing_end', '')
     # TODO: when all results recieved, verify all apptier instances are stopped
 
