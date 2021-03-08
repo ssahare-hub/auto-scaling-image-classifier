@@ -13,7 +13,7 @@ KEY_NAME = 'aws-kp-1'
 SECURITY_GROUP_ID = 'sg-0c3a65f539fa2240a'
 
 # replace this with custom ami with app tier logic!!
-AMI_IMAGE_ID = 'ami-0c7add90156904a2e'
+AMI_IMAGE_ID = 'ami-09d4e54a2f26df45d'
 OG_AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
