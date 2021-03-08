@@ -1,5 +1,5 @@
-print('starting at ->',time.time())
 import time
+print('starting at ->',time.time())
 print('importing helper ->',time.time())
 from helper import *
 import boto3
