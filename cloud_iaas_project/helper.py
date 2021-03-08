@@ -2,6 +2,7 @@ import socket
 import logging
 import boto3
 from botocore.exceptions import ClientError
+from constants import *
 # functions for AWS ->
 
 # resource and client ojects for eacg
