@@ -38,7 +38,7 @@ def spawn_processing_apps(request_queue_url, job_id):
     num_instances = min(queue_length, max_new)
 
     # spawn ec2 instances according to request queue length
-    response = create_instance(
+    create_instance(
         KEY_NAME,
         SECURITY_GROUP_ID,
         APP_TIER_PREFIX,
@@ -48,7 +48,6 @@ def spawn_processing_apps(request_queue_url, job_id):
     )
 
     print('For jobid {} - will create {} instances'.format(job_id, num_instances))
-    print('response for creating instances was as follows ->\n{}'.format(response))
 
 
 def get_running_app_tiers_ids():
@@ -73,7 +72,7 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
     while results_received != job_length:
         print('Trying to receive message')
         # TODO: insert logic to receive messages!??
-        resp = receive_message(response_queue_url)
+        resp = receive_message(response_queue_url, 1)
         message = resp['Messages'][0]
         result = message['Body']
         # once received, increase counter...
