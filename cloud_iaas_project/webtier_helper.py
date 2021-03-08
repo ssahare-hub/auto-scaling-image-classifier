@@ -84,6 +84,9 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
             socketio.emit(
                 'partial_result', result
             )
+            print('processing complete so deleting message')
+            receipt_handle = message['ReceiptHandle']
+            delete_message(response_queue_url, receipt_handle)
         print('-'*30)
     print('processing has ended for job with {} results'.format(job_length))
     print('-'*50)

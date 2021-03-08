@@ -29,8 +29,8 @@ INVISIBLE_MESSAGES = 'ApproximateNumberOfMessagesNotVisible'
 
 QUEUE_ATTRIBUTES = {
     'FifoQueue': 'true',
-    'ReceiveMessageWaitTimeSeconds': '20',
-    'VisibilityTimeout': '60',
+    'ReceiveMessageWaitTimeSeconds': '5',
+    'VisibilityTimeout': '30',
     'ContentBasedDeduplication': 'true'
 }
 
