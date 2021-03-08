@@ -32,6 +32,9 @@ socketio.init_app(app, cors_allowed_origins="*")
 def home_page():
     is_get = (request.method == 'GET')
     job_id = str(uuid.uuid4())
+    
+    # reset images array to store new files
+    images = []
     recieved = []
     if not is_get:
         # start processing uploaded images

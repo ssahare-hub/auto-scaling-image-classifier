@@ -24,7 +24,7 @@ def image_classification(job_id):
     outputs = model(img_tensor)
     _, predicted = torch.max(outputs.data, 1)
 
-    with open('./imagenet-labels.json') as f:
+    with open('/home/ubuntu/cloud_project/cloud_iaas_project/imagenet-labels.json') as f:
         labels = json.load(f)
     result = labels[np.array(predicted)[0]]
     return(result)
