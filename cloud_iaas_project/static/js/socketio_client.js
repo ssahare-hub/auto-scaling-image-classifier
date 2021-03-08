@@ -16,34 +16,40 @@ function connect() {
         
         // on upload start, change message
         socket.on('upload_start', (data) => {
+            console.log('upload_Start')
             const START_UPLOAD_MSG = `Uploading of ${data} valid images started, waiting on processing...`;
             displayMessage(START_UPLOAD_MSG);
         });
-
+        
         // on processing start, change message
         socket.on('processing_start', (all) => {
+            console.log('processing_start')
             counter = 0;
             total = all;
             displayMessage(START_PROCESS_MSG);
         });
-
+        
         // on processing end, change message
         socket.on('processing_end', () => {
+            console.log('processing_end')
             const END_PROCESS_MSG = 'Processing Complete, all results have loaded below -> ';
             displayMessage(END_PROCESS_MSG);
         })
         // on disconnect show connect option ->
         socket.on('disconnect', () => {
+            console.log('disconnected')
             const DISC_MSG = 'Connection to server has been lost, retrying connection...';
             displayMessage(DISC_MSG);
         })
         socket.on('partial_result', (result) => {
+            console.log('part_result')
             counter+=1;
             addResults(result);
             displayMessage(CONTINUE_PROCESS_MSG+`${counter} / ${total}`);
         })
     });
 }
+
 connect()
 
 function displayMessage(message) {
