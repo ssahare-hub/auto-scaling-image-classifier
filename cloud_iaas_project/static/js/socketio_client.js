@@ -12,41 +12,48 @@ function connect() {
         console.log('connected socket-io');
         const SERVER_ESTB_MSG = 'Connection with server established...';
         displayMessage(SERVER_ESTB_MSG);
-        
+        addToDiv('logs',SERVER_ESTB_MSG)
         // on upload start, change message
-        socket.on('upload_start', (data) => {
-            console.log('upload_Start')
-            const START_UPLOAD_MSG = `Uploading of ${data} valid images started, waiting on processing...`;
-            displayMessage(START_UPLOAD_MSG);
-        });
-        
-        // on processing start, change message
-        socket.on('processing_start', (all) => {
-            console.log('processing_start, job length ->',all)
-            counter = 0;
-            displayMessage(START_PROCESS_MSG);
-        });
-        
-        // on processing end, change message
-        socket.on('processing_end', () => {
-            console.log('processing_end')
-            const END_PROCESS_MSG = 'Processing Complete, all results have loaded below -> ';
-            displayMessage(END_PROCESS_MSG);
-        })
-        // on disconnect show connect option ->
-        socket.on('disconnect', () => {
-            console.log('disconnected')
-            const DISC_MSG = 'Connection to server has been lost, retrying connection...';
-            displayMessage(DISC_MSG);
-        })
-        socket.on('partial_result', (response) => {
-            var respObj = JSON.parse(response)
-            console.log('part_result',respObj)
-            counter+=1;
-            addResults(respObj.result);
-            displayMessage(CONTINUE_PROCESS_MSG+`${counter} / ${respObj.total}`);
-        })
     });
+    
+    socket.on('upload_start', (data) => {
+        console.log('upload_Start')
+        const START_UPLOAD_MSG = `Uploading of ${data} valid images started, waiting on processing...`;
+        displayMessage(START_UPLOAD_MSG);
+        addToDiv('logs',START_UPLOAD_MSG)
+    });
+
+    // on processing start, change message
+    socket.on('processing_start', (all) => {
+        console.log('processing_start, job length ->', all)
+        counter = 0;
+        displayMessage(START_PROCESS_MSG);
+        addToDiv('logs', START_PROCESS_MSG);
+    });
+
+    // on processing end, change message
+    socket.on('processing_end', () => {
+        console.log('processing_end')
+        const END_PROCESS_MSG = 'Processing Complete, all results have loaded below -> ';
+        displayMessage(END_PROCESS_MSG);
+        addToDiv('logs', END_PROCESS_MSG);
+    })
+    // on disconnect show connect option ->
+    socket.on('disconnect', () => {
+        console.log('disconnected')
+        const DISC_MSG = 'Connection to server has been lost, retrying connection...';
+        displayMessage(DISC_MSG);
+        addToDiv('logs', DISC_MSG);
+    })
+    socket.on('partial_result', (response) => {
+        var respObj = JSON.parse(response)
+        console.log('part_result', respObj)
+        counter += 1;
+        addToDiv('results', respObj.result);
+        var message = CONTINUE_PROCESS_MSG + `${counter} / ${respObj.total}`;
+        displayMessage(message);
+        addToDiv('logs', message);
+    })
 }
 
 connect()
@@ -58,12 +65,11 @@ function displayMessage(message) {
     }
 }
 
-function addResults(result)
-{
-    var x = document.getElementById('results')
-    if(x){
+function addToDiv(div_id, message) {
+    var x = document.getElementById(div_id)
+    if (x) {
         var y = document.createElement('p')
-        y.innerText = result
+        y.innerText = message
         x.appendChild(y)
     }
 }
