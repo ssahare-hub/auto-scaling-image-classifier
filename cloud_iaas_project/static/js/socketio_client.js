@@ -7,8 +7,8 @@ function connect() {
     console.log('url', url)
     socket = io.connect(url);
     console.log('socket id ', socket['id']);
+    var total = {{num_images}};
     var counter = 0;
-    // var total = 0;
     socket.on('connect', function () {
         console.log('connected socket-io');
         const SERVER_ESTB_MSG = 'Connection with server established...';
