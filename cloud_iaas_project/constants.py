@@ -4,6 +4,8 @@
 REQUEST_QUEUE_NAME = 'requests_sss.fifo'
 RESPONSE_QUEUE_NAME = 'response_sss.fifo'
 
+MAX_RETRIES = 4
+
 BUCKET_NAME = 'sss-cloud-bucket'
 
 APP_TIER_PREFIX = 'sss_app_tier_'
@@ -35,7 +37,6 @@ QUEUE_ATTRIBUTES = {
 }
 
 USERDATA = '''#!/bin/bash
-echo $USER > /home/ubuntu/user.txt
 /usr/bin/python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py'''
 
 INSTANCE_PROFILE = {
