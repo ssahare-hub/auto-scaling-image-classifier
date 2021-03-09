@@ -30,6 +30,8 @@
     {% endif %}
 </div>
 <p id='info'>Establishing connection with server...</p>
-
+<script type="text/javascript">
+    var total = {{num_images}};
+</script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/socketio_client.js') }}" charset="utf-8">
 </script>

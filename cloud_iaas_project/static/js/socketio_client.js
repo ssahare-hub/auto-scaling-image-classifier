@@ -8,7 +8,7 @@ function connect() {
     socket = io.connect(url);
     console.log('socket id ', socket['id']);
     var counter = 0;
-    var total = 0;
+    // var total = 0;
     socket.on('connect', function () {
         console.log('connected socket-io');
         const SERVER_ESTB_MSG = 'Connection with server established...';
@@ -23,9 +23,9 @@ function connect() {
         
         // on processing start, change message
         socket.on('processing_start', (all) => {
-            console.log('processing_start')
+            console.log('processing_start, job length ->',all)
             counter = 0;
-            total = all;
+            // total = all;
             displayMessage(START_PROCESS_MSG);
         });
         
