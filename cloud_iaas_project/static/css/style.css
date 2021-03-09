@@ -1,0 +1,10 @@
+#results{
+    display:flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.inline{
+    display: inline;
+    background-color: rgba(1,1,1,0.2);
+}

@@ -49,10 +49,9 @@ function connect() {
         var respObj = JSON.parse(response)
         console.log('part_result', respObj)
         counter += 1;
-        addToDiv('results', respObj.result);
+        addToDiv('results', respObj.result, 'inline');
         var message = CONTINUE_PROCESS_MSG + `${counter} / ${respObj.total}`;
         displayMessage(message);
-        addToDiv('logs', message);
     })
 }
 
@@ -65,11 +64,12 @@ function displayMessage(message) {
     }
 }
 
-function addToDiv(div_id, message) {
+function addToDiv(div_id, message, className='') {
     var x = document.getElementById(div_id)
     if (x) {
         var y = document.createElement('p')
         y.innerText = message
+        y.className=className
         x.appendChild(y)
     }
 }
