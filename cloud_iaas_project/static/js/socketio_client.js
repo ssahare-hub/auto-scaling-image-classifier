@@ -41,10 +41,10 @@ function connect() {
         })
         socket.on('partial_result', (response) => {
             var respObj = JSON.parse(response)
-            console.log('part_result',response)
+            console.log('part_result',respObj)
             counter+=1;
-            addResults(respObj['result']);
-            displayMessage(CONTINUE_PROCESS_MSG+`${counter} / ${respObj['total']}`);
+            addResults(respObj.result);
+            displayMessage(CONTINUE_PROCESS_MSG+`${counter} / ${respObj.total}`);
         })
     });
 }
