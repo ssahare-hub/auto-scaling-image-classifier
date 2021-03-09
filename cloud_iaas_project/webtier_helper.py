@@ -32,10 +32,11 @@ def spawn_processing_apps(request_queue_url, job_id):
     queue_length = int(queue_length)
     print('queue length is {}'.format(queue_length))
 
-    # TODO: retrieve number of live app tiers and subtract from max_app_tiers
+    # retrieves number of live app tiers and subtract from max_app_tiers
     num_running = get_running_app_tiers_ids()
+    print('instances that are running and are not THIS -> {}'.format(num_running))
     max_new = MAX_APP_TIERS - num_running
-
+    print('max new instances that should be created are {}'.format(max_new))
     num_instances = min(queue_length, max_new)
 
     # spawn ec2 instances according to request queue length
