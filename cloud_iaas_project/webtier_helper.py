@@ -90,8 +90,13 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
             print('result found as {} , processing'.format(result))
             results_received += 1
             # send results back to user using sockets
+            response = {
+                'result':result,
+                'total':job_length
+            }
+
             socketio.emit(
-                'partial_result', result
+                'partial_result', json.dumps(response)
             )
             print('processing complete so deleting message')
             receipt_handle = message['ReceiptHandle']

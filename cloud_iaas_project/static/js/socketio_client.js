@@ -7,7 +7,6 @@ function connect() {
     console.log('url', url)
     socket = io.connect(url);
     console.log('socket id ', socket['id']);
-    var total = {{num_images}};
     var counter = 0;
     socket.on('connect', function () {
         console.log('connected socket-io');
@@ -25,7 +24,6 @@ function connect() {
         socket.on('processing_start', (all) => {
             console.log('processing_start, job length ->',all)
             counter = 0;
-            // total = all;
             displayMessage(START_PROCESS_MSG);
         });
         
@@ -41,11 +39,12 @@ function connect() {
             const DISC_MSG = 'Connection to server has been lost, retrying connection...';
             displayMessage(DISC_MSG);
         })
-        socket.on('partial_result', (result) => {
-            console.log('part_result',result)
+        socket.on('partial_result', (response) => {
+            var respObj = JSON.parse(response)
+            console.log('part_result',response)
             counter+=1;
-            addResults(result);
-            displayMessage(CONTINUE_PROCESS_MSG+`${counter} / ${total}`);
+            addResults(respObj['result']);
+            displayMessage(CONTINUE_PROCESS_MSG+`${counter} / ${respObj['total']}`);
         })
     });
 }
