@@ -22,6 +22,7 @@
     <h3> 
          {{num_images}} / {{num_recieved}} were valid images, please wait on results... 
     </h3>
+    <p id='info'>Establishing connection with server...</p>
     <h4>
         Results ->
     </h4>
@@ -29,6 +30,9 @@
     </div>
     {% endif %}
 </div>
-<p id='info'>Establishing connection with server...</p>
+<h5>Logs -></h5>
+<div id='logs'>
+
+</div>
 <script type="text/javascript" src="{{ url_for('static', filename='js/socketio_client.js') }}" charset="utf-8">
 </script>
