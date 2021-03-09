@@ -54,11 +54,19 @@ def spawn_processing_apps(request_queue_url, job_id):
 
 def get_running_app_tiers_ids():
     current_instance_id = get_instance_id()
-    ec2_client = boto3.client('ec2')
-    reservations = ec2_client.describe_instances()['Reservations']
-    instance_ids = [r['Instances'][0]['InstanceId'] for r in reservations]
-    if current_instance_id in instance_ids:
-        instance_ids.remove(current_instance_id)
+    ec2_res = boto3.resource('ec2')
+    instances = ec2_res.instances.filter(
+        Filters=[
+            {
+                'Name': 'instance-state-name',
+                'Values': ['running']
+            }
+        ]
+    )
+    instance_ids = []
+    for instance in instances:
+        if instance.id != current_instance_id:
+            instance_ids.append(instance.id)
     return len(instance_ids)
 
 # start listening to response queue for results
