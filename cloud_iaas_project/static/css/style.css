@@ -1,10 +1,47 @@
-#results{
-    display:flex;
+#results {
+    display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    /* background-color: rgba(112, 190, 235, 0.527); */
+    padding: 10px;
 }
 
-.inline{
+.inline {
     display: inline;
-    background-color: rgba(1,1,1,0.2);
+    padding: 0px 10px;
+    margin: 0px 10px;
+    /* background-color: rgba(10, 126, 194, 0.527); */
+}
+
+.mainflex {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border: 1px solid black;
+    padding-bottom: 15px;
+    width: 100%
+}
+
+.logflex {
+    display: flex;
+    flex-flow: column wrap;
+    padding-left: 20px;
+}
+
+.mid-flex-left {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
+    width: 75%;
+}
+
+.mid-flex-right {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
+    width: 25%;
+}
+
+.bottom-border {
+    border-bottom: 1px solid black;
 }
