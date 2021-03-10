@@ -2,38 +2,41 @@
 <title>Image Classifier Processing</title>
 
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.2/socket.io.js">
     </script>
     <title>Image Classifier</title>
 </head>
 
 <div id='container'>
-    {%if is_get %}
     <h1>Upload test images -></h1>
     <h3>Only supports images with extensions in jpeg, jpg and png</h3>
     <form method=post enctype=multipart/form-data action='/'>
         <input type=file name=file multiple>
         <input type=submit value=Upload>
     </form>
-    {% else %}
     <h3>
         Upload Successful...
     </h3>
-    <h3> 
-         {{num_images}} / {{num_recieved}} were valid images, please wait on results... 
+    <h3>
+        {{num_images}} / {{num_recieved}} were valid images, please wait on results...
     </h3>
     <p id='info'>Establishing connection with server...</p>
-    <h4>
-        Results ->
-    </h4>
-    <div id="results">
+    <div class="mainflex">
+        <div class="mid-flex-left">
+            <div class="bottom-border">
+                <h4>Results -></h4>
+            </div>
+            <div id="results">
+            </div>
+        </div>
+        <div class="midd-flex-right">
+            <div class="bottom-border">
+                <h4>Above infor Logs are printed below for reference -></h4>
+            </div>
+            <div id='logs' class="logflex">
+            </div>
+        </div>
     </div>
-    {% endif %}
-</div>
-<h5>Above infor Logs are printed below for reference -></h5>
-<div id='logs'>
-
-</div>
-<script type="text/javascript" src="{{ url_for('static', filename='js/socketio_client.js') }}" charset="utf-8">
-</script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/socketio_client.js') }}" charset="utf-8">
+    </script>
