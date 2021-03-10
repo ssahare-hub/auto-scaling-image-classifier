@@ -135,33 +135,31 @@ def get_instance_id():
 
 # EC2
 # create instances (ami code)
-def create_instance(key_name, sec_group_ids, instance_name, image_id='ami-0ee8cf7b8a34448a6', instance_type='t2.micro', min_count=1, max_count=1):
+def create_instance(key_name, sec_group_ids, instance_name, image_id='ami-0ee8cf7b8a34448a6', instance_type='t2.micro', min_count, max_count):
 
-    for i in range(max_count):
-        tagSpecification = {
-            'ResourceType': 'instance',
-            'Tags': [
-                {
-                    'Key': 'Name',
-                    'Value': instance_name+str(i)
-                },
-            ]
-        }
-        ec2_res.create_instances(
-            ImageId=image_id,
-            MinCount=1,
-            MaxCount=1,
-            InstanceType=instance_type,
-            KeyName=key_name,
-            SecurityGroupIds=[sec_group_ids],
-            TagSpecifications=[tagSpecification],
-            UserData=USERDATA,
-            IamInstanceProfile=INSTANCE_PROFILE
-        )
-        print('[INFO] [HELPER] Created 1 app-tier instance')
+instancelist = ec2_res.create_instances(
+    ImageId=image_id,
+    MinCount=min_count,
+    MaxCount=max_count,
+    InstanceType=instance_type,
+    KeyName=key_name,
+    SecurityGroupIds=[sec_group_ids],
+    TagSpecifications=[tagSpecification],
+    UserData=USERDATA,
+    IamInstanceProfile=INSTANCE_PROFILE )
+    print('[INFO] [HELPER] Created 1 app-tier instance')
         # print(instances.instance_type, instances.public_ip_address)
-
 # terminate instance? (self)
+for i in range(max_count):
+    j =i+1
+    instance_id = instancelist[i].instance_id
+    print(instance_id)
+    ec2_res.create_tags(Resources=[instance_id], Tags=[
+        {
+            'Key': 'Name',
+            'Value': 'sss_app_tier_{x}'.format(x=j),
+        },
+    ])
 
 
 def terminate_instance(instance_id):
