@@ -43,7 +43,6 @@ def spawn_processing_apps(request_queue_url, job_id):
     create_instance(
         KEY_NAME,
         SECURITY_GROUP_ID,
-        APP_TIER_PREFIX,
         image_id=AMI_IMAGE_ID,
         min_count=num_instances,
         max_count=num_instances
