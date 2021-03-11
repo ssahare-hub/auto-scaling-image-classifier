@@ -11,11 +11,10 @@ BUCKET_NAME = 'sai-cloud-bucket'
 APP_TIER_PREFIX = 'sss_app_tier_'
 
 KEY_NAME = 'Cloud Computing - ASU - Project1'
-
 SECURITY_GROUP_ID = 'sg-03c646f82a7068326'
 
 # replace this with custom ami with app tier logic!!
-AMI_IMAGE_ID = 'ami-0f6827b34fafee7ec'
+AMI_IMAGE_ID = 'ami-016f125ec17a8c8dd'
 OG_AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
