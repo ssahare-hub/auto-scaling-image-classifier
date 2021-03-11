@@ -47,9 +47,9 @@ function connect() {
     })
     socket.on('partial_result', (response) => {
         var respObj = JSON.parse(response)
-        console.log('part_result', respObj)
         counter += 1;
-        addToDiv('results', respObj.result, 'inline');
+        var msg = `<strong>${counter})</strong> ${respObj.result}`;
+        arrangeInDiv('results', msg, 'col')
         var message = CONTINUE_PROCESS_MSG + `${counter} / ${respObj.total}`;
         displayMessage(message);
     })
@@ -60,7 +60,7 @@ connect()
 function displayMessage(message) {
     var x = document.getElementById('info');
     if (x) {
-        x.innerText = '[INFO] '+ message;
+        x.innerText = '[INFO] ' + message;
     }
 }
 
@@ -77,13 +77,13 @@ function addToDiv(div_id, message, className = '') {
 const DIV_PREFIX = 'log-container-';
 const MAX_IN_DIV = 3;
 var div_id_num = 1
-var last_div = document.getElementById('log-container-1'), last_div_count=0;
+var last_div = document.getElementById('log-container-1'), last_div_count = 0;
 function arrangeInDiv(div_id, message, className = '') {
-    if (last_div_count >= MAX_IN_DIV){
+    if (last_div_count >= MAX_IN_DIV) {
         last_div = document.createElement('div');
-        div_id_num +=1;
+        div_id_num += 1;
         last_div.id = DIV_PREFIX + div_id_num;
-        last_div.className = 'log-container'
+        last_div.className = 'row'
         console.log(last_div.id)
         var x = document.getElementById(div_id)
         console.log(x)
@@ -91,15 +91,15 @@ function arrangeInDiv(div_id, message, className = '') {
         last_div_count = 0;
     }
     last_div_count += 1;
-    var y = document.createElement('p')
-    y.innerText = message
+    var y = document.createElement('div')
+    y.innerHTML = message
     y.className = className
     last_div.appendChild(y)
 }
 
 
 function generator() {
-    random_results =[
+    random_results = [
         'im_copy_age.jpeg==result_2342',
         'image.jpeg==result_sdddsaas',
         'image.jpeg==result',
@@ -111,10 +111,9 @@ function generator() {
         'image53.jpeg==result  asd',
         'image_copy.jpeg==reslt',
     ]
-    for (i=0;i<100;i++){
+    for (i = 0; i < 100; i++) {
         var x = Math.floor(Math.random() * 10)
-        arrangeInDiv("results",random_results[x],'inline');
+        var msg = `<strong>${i + 1})</strong> ${random_results[x]}`;
+        arrangeInDiv("results", msg, 'col');
     }
 }
-
-generator();
