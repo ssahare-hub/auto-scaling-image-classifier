@@ -1,42 +1,67 @@
 <!doctype html>
-<title>Image Classifier Processing</title>
 
 <head>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.2/socket.io.js">
     </script>
-    <title>Image Classifier</title>
-</head>
 
-<div id='container'>
-    <h1>Upload test images -></h1>
-    <h3>Only supports images with extensions in jpeg, jpg and png</h3>
-    <form method=post enctype=multipart/form-data action='/'>
-        <input type=file name=file multiple>
-        <input type=submit value=Upload>
-    </form>
-    <h3>
-        Upload Successful...
+    <title>Auto Scaling Image Classifier</title>
+</head>
+<header>
+    <h1 class='align-center'>
+        Auto Scaling Image Classifier Application using AWS IaaS resources such as EC2, S3 and SQS
+    </h1>
+    <h3 class='align-center'>
+        CSE 546 Cloud Computing by Ming Zhao
     </h3>
-    <h3>
-        {{num_images}} / {{num_recieved}} were valid images, please wait on results...
-    </h3>
-    <p id='info'>Establishing connection with server...</p>
-    <div class="mainflex">
-        <div class="mid-flex-left">
-            <div class="bottom-border">
-                <h4>Results -></h4>
+    <h4 class='align-left'>
+        Project by Soham Sahare, Shreya Patel and Sai Srinivas .....
+    </h4>
+</header>
+
+<body>
+
+    <br>
+    <div id='container'>
+        <!-- { if is_get } -->
+        <h1>Upload test images -></h1>
+        <h3>Only supports images with extensions in jpeg, jpg and png</h3>
+        <form method=post enctype=multipart/form-data action='/'>
+            <input type=file name=file multiple>
+            <input type=submit value=Upload>
+        </form>
+        <!-- { else } -->
+        <h3>
+            Upload Successful...
+        </h3>
+        <h3>
+            {{num_images}} / {{num_recieved}} were valid images, please wait on results...
+        </h3>
+        <p id='info'>[INFO] Establishing connection with server...</p>
+        <div class="mainflex">
+            <div class="mid-flex-left">
+                <div class="bottom-border">
+                    <h4>Results -></h4>
+                </div>
+                <div id="results">
+                    <div id='log-container-1' class='log-container'></div>
+                </div>
             </div>
-            <div id="results">
+            <div class="mid-flex-right">
+                <div class="bottom-border">
+                    <h4>Above 'info-logs' are printed below for reference -></h4>
+                </div>
+                <div id='logs' class="logflex">
+                </div>
             </div>
         </div>
-        <div class="midd-flex-right">
-            <div class="bottom-border">
-                <h4>Above infor Logs are printed below for reference -></h4>
-            </div>
-            <div id='logs' class="logflex">
-            </div>
-        </div>
+        <!-- { endif } -->
     </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script> -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/socketio_client.js') }}" charset="utf-8">
     </script>
+</body>
