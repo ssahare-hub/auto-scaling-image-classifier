@@ -1,14 +1,14 @@
 # DO NOT CHANGE VALUES FOR THIS FILE
 # EVEN OUTSIDE THIS FILE !!!!
 
-REQUEST_QUEUE_NAME = 'requests_sss.fifo'
-RESPONSE_QUEUE_NAME = 'response_sss.fifo'
+REQUEST_QUEUE_NAME = 'requests_sss_cc.fifo'
+RESPONSE_QUEUE_NAME = 'response_sss_cc.fifo'
 
 MAX_RETRIES = 4
 
 BUCKET_NAME = 'sss-cloud-bucket-9'
 
-APP_TIER_PREFIX = 'sss_app_tier_'
+APP_TIER_PREFIX = 'cc_sss_app_tier'
 
 KEY_NAME = 'newkey'
 
@@ -31,7 +31,7 @@ INVISIBLE_MESSAGES = 'ApproximateNumberOfMessagesNotVisible'
 
 QUEUE_ATTRIBUTES = {
     'FifoQueue': 'true',
-    'ReceiveMessageWaitTimeSeconds': '5',
+    'ReceiveMessageWaitTimeSeconds': '20',
     'VisibilityTimeout': '30',
     'ContentBasedDeduplication': 'true'
 }
