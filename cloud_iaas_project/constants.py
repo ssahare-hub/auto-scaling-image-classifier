@@ -10,7 +10,7 @@ BUCKET_NAME = 'sai-cloud-bucket'
 
 APP_TIER_PREFIX = 'sss_app_tier_'
 
-KEY_NAME = 'CloudComputing-ASU-Project1'
+KEY_NAME = 'Cloud Computing - ASU - Project1'
 
 SECURITY_GROUP_ID = 'sg-03c646f82a7068326'
 
