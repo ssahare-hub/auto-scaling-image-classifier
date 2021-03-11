@@ -12,7 +12,7 @@ APP_TIER_PREFIX = 'sss_app_tier_'
 
 KEY_NAME = 'CloudComputing-ASU-Project1'
 
-SECURITY_GROUP_ID = 'sg-0c3a65f539fa2240a'
+SECURITY_GROUP_ID = 'sg-03c646f82a7068326'
 
 # replace this with custom ami with app tier logic!!
 AMI_IMAGE_ID = 'ami-0f6827b34fafee7ec'
