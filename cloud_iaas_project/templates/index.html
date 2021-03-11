@@ -9,12 +9,14 @@
 </head>
 
 <div id='container'>
+    {%if is_get %}
     <h1>Upload test images -></h1>
     <h3>Only supports images with extensions in jpeg, jpg and png</h3>
     <form method=post enctype=multipart/form-data action='/'>
         <input type=file name=file multiple>
         <input type=submit value=Upload>
     </form>
+    {% else %}
     <h3>
         Upload Successful...
     </h3>
@@ -29,6 +31,7 @@
             </div>
             <div id="results">
             </div>
+            {% endif %}
         </div>
         <div class="midd-flex-right">
             <div class="bottom-border">
