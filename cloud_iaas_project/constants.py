@@ -40,5 +40,5 @@ USERDATA = '''#!/bin/bash
 /usr/bin/python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py'''
 
 INSTANCE_PROFILE = {
-    'Arn':'arn:aws:iam::115873875546:instance-profile/sample_webtier',
+    'Arn':'arn:aws:iam::871530961586:instance-profile/sample-webtier'
 }
