@@ -6,13 +6,13 @@ RESPONSE_QUEUE_NAME = 'response_sss.fifo'
 
 MAX_RETRIES = 4
 
-BUCKET_NAME = 'sss-cloud-bucket'
+BUCKET_NAME = 'sss-cloud-bucket-9'
 
 APP_TIER_PREFIX = 'sss_app_tier_'
 
-KEY_NAME = 'aws-kp-1'
+KEY_NAME = 'newkey'
 
-SECURITY_GROUP_ID = 'sg-0c3a65f539fa2240a'
+SECURITY_GROUP_ID = 'sg-0c7f568aaf89e6cd9'
 
 # replace this with custom ami with app tier logic!!
 AMI_IMAGE_ID = 'ami-0f6827b34fafee7ec'
@@ -40,5 +40,5 @@ USERDATA = '''#!/bin/bash
 /usr/bin/python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py'''
 
 INSTANCE_PROFILE = {
-    'Arn':'arn:aws:iam::115873875546:instance-profile/EC2_FA_Role',
+    'arn:aws:iam::869079644211:instance-profile/newrole',
 }
