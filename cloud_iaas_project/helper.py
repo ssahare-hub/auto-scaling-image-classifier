@@ -147,7 +147,7 @@ def create_instance(key_name, sec_group_ids, instance_name, image_id='ami-0ee8cf
         TagSpecifications=[tagSpecification],
         UserData=USERDATA,
         IamInstanceProfile=INSTANCE_PROFILE )
-        print('[INFO] [HELPER] Created 1 app-tier instance')
+    print('[INFO] [HELPER] Created 1 app-tier instance')
         # print(instances.instance_type, instances.public_ip_address)
 # terminate instance? (self)
     for i in range(max_count):
