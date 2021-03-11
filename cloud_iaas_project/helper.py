@@ -144,7 +144,6 @@ def create_instance(key_name, sec_group_ids, image_id='ami-0ee8cf7b8a34448a6', i
         InstanceType=instance_type,
         KeyName=key_name,
         SecurityGroupIds=[sec_group_ids],
-        TagSpecifications=[tagSpecification],
         UserData=USERDATA,
         IamInstanceProfile=INSTANCE_PROFILE )
     print('[INFO] [HELPER] Created 1 app-tier instance')
