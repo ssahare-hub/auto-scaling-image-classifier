@@ -1,3 +1,4 @@
+import time
 print('starting at ->', time.time())
 import numpy as np
 import json
@@ -9,7 +10,7 @@ import torchvision.transforms as transforms
 import torch
 print('importing helper ->', time.time())
 from helper import *
-import time
+
 
 # Start of image_classification function
 
