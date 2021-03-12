@@ -15,7 +15,7 @@ KEY_NAME = 'newkey'
 SECURITY_GROUP_ID = 'sg-0c7f568aaf89e6cd9'
 
 # replace this with custom ami with app tier logic!!
-AMI_IMAGE_ID = 'ami-0f9f2feff7e7f5e6d' 
+AMI_IMAGE_ID = 'ami-0c6ef221f72f8b248' 
 OG_AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
