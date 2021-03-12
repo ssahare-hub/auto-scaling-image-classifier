@@ -1,21 +1,20 @@
 # DO NOT CHANGE VALUES FOR THIS FILE
 # EVEN OUTSIDE THIS FILE !!!!
 
-REQUEST_QUEUE_NAME = 'requests_sss.fifo'
-RESPONSE_QUEUE_NAME = 'response_sss.fifo'
+REQUEST_QUEUE_NAME = 'requests_sai.fifo'
+RESPONSE_QUEUE_NAME = 'response_sai.fifo'
 
 MAX_RETRIES = 12
 
-BUCKET_NAME = 'sss-cloud-bucket'
+BUCKET_NAME = 'sai-cloud-bucket'
 
 APP_TIER_PREFIX = 'sss_app_tier_'
 
-KEY_NAME = 'aws-kp-1'
-
-SECURITY_GROUP_ID = 'sg-0c3a65f539fa2240a'
+KEY_NAME = 'Cloud Computing - ASU - Project1'
+SECURITY_GROUP_ID = 'sg-03c646f82a7068326'
 
 # replace this with custom ami with app tier logic!!
-AMI_IMAGE_ID = 'ami-0f6827b34fafee7ec'
+AMI_IMAGE_ID = 'ami-016f125ec17a8c8dd'
 OG_AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
@@ -28,6 +27,7 @@ SECRET_KEY = 'SECRET!!!'
 
 S3_OUTPUT_FOLDER = 'OUTPUT/'
 S3_INPUT_FOLDER = 'INPUT/'
+
 
 VISIBLE_MESSAGES = 'ApproximateNumberOfMessages'
 INVISIBLE_MESSAGES = 'ApproximateNumberOfMessagesNotVisible'
@@ -43,5 +43,5 @@ USERDATA = '''#!/bin/bash
 /usr/bin/python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py'''
 
 INSTANCE_PROFILE = {
-    'Arn':'arn:aws:iam::115873875546:instance-profile/EC2_FA_Role',
+    'Arn':'arn:aws:iam::871530961586:instance-profile/sample-webtier'
 }
