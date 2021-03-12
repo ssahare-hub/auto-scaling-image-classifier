@@ -43,5 +43,5 @@ USERDATA = '''#!/bin/bash
 /usr/bin/python3 /home/ubuntu/cloud_project/cloud_iaas_project/apptier.py'''
 
 INSTANCE_PROFILE = {
-    'Arn':'arn:aws:iam::115873875546:instance-profile/EC2_FA_Role',
+    'Arn':'arn:aws:iam::869079644211:instance-profile/newrole',
 }
