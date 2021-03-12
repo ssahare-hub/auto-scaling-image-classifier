@@ -14,7 +14,7 @@ KEY_NAME = 'Cloud Computing - ASU - Project1'
 SECURITY_GROUP_ID = 'sg-03c646f82a7068326'
 
 # replace this with custom ami with app tier logic!!
-AMI_IMAGE_ID = 'ami-016f125ec17a8c8dd'
+AMI_IMAGE_ID = 'ami-0e07a8dc3d58fc7d1'
 OG_AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
