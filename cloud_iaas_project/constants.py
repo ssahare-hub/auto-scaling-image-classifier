@@ -6,16 +6,16 @@ RESPONSE_QUEUE_NAME = 'response_sss.fifo'
 
 MAX_RETRIES = 12
 
-BUCKET_NAME = 'sss-cloud-bucket'
+BUCKET_NAME = 'sss-cloud-bucket-9'
 
-APP_TIER_PREFIX = 'sss_app_tier_'
+APP_TIER_PREFIX = 'cc_sss_app_tier'
 
-KEY_NAME = 'aws-kp-1'
+KEY_NAME = 'newkey'
 
-SECURITY_GROUP_ID = 'sg-0c3a65f539fa2240a'
+SECURITY_GROUP_ID = 'sg-0c7f568aaf89e6cd9'
 
 # replace this with custom ami with app tier logic!!
-AMI_IMAGE_ID = 'ami-0f6827b34fafee7ec'
+AMI_IMAGE_ID = 'ami-09fec7c58e976045c'
 OG_AMI_IMAGE_ID = 'ami-0ee8cf7b8a34448a6'
 
 MIN_APP_TIERS = 0
