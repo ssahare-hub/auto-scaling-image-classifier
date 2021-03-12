@@ -118,10 +118,10 @@ def upload_file(file_name, bucket_name, object_name):
 # read from bucket
 
 
-def read_from_bucket(bucket_name, object_name):
+def read_from_bucket(bucket_name, path, object_name):
     # check if bucket exists
     bucket = s3_res.Bucket(bucket_name)
-    object = bucket.Object(object_name)
+    object = bucket.Object(path)
     print(object)
     # downloading file to local from bucket
     object.download_file(object_name)
