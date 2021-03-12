@@ -1,4 +1,3 @@
-from cloud_iaas_project.constants import S3_OUTPUT_FOLDER
 import boto3
 from werkzeug.utils import secure_filename
 from helper import *
