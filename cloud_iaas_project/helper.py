@@ -3,6 +3,7 @@ import logging
 import boto3
 from botocore.exceptions import ClientError
 from constants import *
+import uuid
 # functions for AWS ->
 
 # resource and client ojects for eacg
@@ -54,11 +55,13 @@ def get_one_queue_attribute(queue_url, attribute_name='ApproximateNumberOfMessag
 
 # send message to queue
 def send_message(queue_url, message_attributes, message_group_id, message_body):
+    messageDeduplicationId =  str(uuid.uuid4())
     response = sqs_client.send_message(
         QueueUrl=queue_url,
         MessageAttributes=message_attributes,
         MessageGroupId=message_group_id,
-        MessageBody=message_body
+        MessageBody=message_body,
+        MessageDeduplicationId=messageDeduplicationId
     )
     return response['MessageId']
 
