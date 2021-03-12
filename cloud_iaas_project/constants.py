@@ -4,7 +4,7 @@
 REQUEST_QUEUE_NAME = 'requests_sss.fifo'
 RESPONSE_QUEUE_NAME = 'response_sss.fifo'
 
-MAX_RETRIES = 4
+MAX_RETRIES = 12
 
 BUCKET_NAME = 'sss-cloud-bucket'
 
@@ -25,6 +25,9 @@ UPLOAD_FOLDER = './uploads/'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 SECRET_KEY = 'SECRET!!!'
+
+S3_OUTPUT_FOLDER = 'OUTPUT/'
+S3_INPUT_FOLDER = 'INPUT/'
 
 VISIBLE_MESSAGES = 'ApproximateNumberOfMessages'
 INVISIBLE_MESSAGES = 'ApproximateNumberOfMessagesNotVisible'
