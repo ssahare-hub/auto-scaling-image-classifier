@@ -45,7 +45,7 @@ while (CURR_RETRIES < MAX_RETRIES):
         job_id = body['job_id']
         print('reading from bucket {}'.format(BUCKET_NAME))
 # 2) get image from s3
-        read_from_bucket(BUCKET_NAME, '{}{}'.format(S3_INPUT_FOLDER, image_id))
+        read_from_bucket(BUCKET_NAME, '{}{}'.format(S3_INPUT_FOLDER, image_id), image_id)
 
 # 3) process image and return result
         image_classification_output = image_classification(image_id)
