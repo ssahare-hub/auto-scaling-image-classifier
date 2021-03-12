@@ -1,16 +1,12 @@
-print('starting at ->', time.time())
 import numpy as np
 import json
-print('importing PIL', time.time())
 from PIL import Image
-print('importing torch ->', time.time())
 import torchvision.models as models
 import torchvision.transforms as transforms
 import torch
-print('importing helper ->', time.time())
 from helper import *
 import time
-
+print('importing finished')
 # Start of image_classification function
 
 
