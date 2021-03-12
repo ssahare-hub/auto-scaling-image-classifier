@@ -1,3 +1,4 @@
+from cloud_iaas_project.constants import S3_OUTPUT_FOLDER
 import boto3
 from werkzeug.utils import secure_filename
 from helper import *
@@ -13,7 +14,7 @@ def process_image(request_queue_url, path, object_name, job_id):
     # TODO: Add uniqueness to filename
     # store images to s3
     print('uploading file {} to {}'.format(object_name, BUCKET_NAME))
-    upload_file(path, BUCKET_NAME, object_name)
+    upload_file(path, BUCKET_NAME, '{}{}'.format(S3_INPUT_FOLDER, object_name))
 
     # queue image_name in request queue
     # TODO: Fill these and include job id somewhere!
@@ -34,10 +35,11 @@ def spawn_processing_apps(request_queue_url, job_id):
 
     # retrieves number of live app tiers and subtract from max_app_tiers
     num_running = get_running_app_tiers_ids()
-    print('instances that are running and are not THIS -> {}'.format(num_running))
+    print('App tier instances running -> {}'.format(num_running))
     max_new = MAX_APP_TIERS - num_running
-    print('max new instances that should be created are {}'.format(max_new))
+    print('max new app tier instances that could be created are {}'.format(max_new))
     num_instances = min(queue_length, max_new)
+    print('For jobid {} - will create {} instances'.format(job_id, num_instances))
 
     # spawn ec2 instances according to request queue length
     create_instance(
@@ -49,7 +51,6 @@ def spawn_processing_apps(request_queue_url, job_id):
         max_count=num_instances
     )
 
-    print('For jobid {} - will create {} instances'.format(job_id, num_instances))
 
 
 def get_running_app_tiers_ids():
