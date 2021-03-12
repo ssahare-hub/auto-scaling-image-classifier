@@ -1,8 +1,8 @@
 # DO NOT CHANGE VALUES FOR THIS FILE
 # EVEN OUTSIDE THIS FILE !!!!
 
-REQUEST_QUEUE_NAME = 'requests_sss_cc.fifo'
-RESPONSE_QUEUE_NAME = 'response_sss_cc.fifo'
+REQUEST_QUEUE_NAME = 'requests_sss.fifo'
+RESPONSE_QUEUE_NAME = 'response_sss.fifo'
 
 MAX_RETRIES = 4
 
