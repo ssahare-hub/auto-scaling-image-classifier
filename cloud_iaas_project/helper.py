@@ -85,8 +85,6 @@ def delete_message(queue_url, receipt_handle):
 # S3
 
 # create bucket (if it doesn't exist)
-
-
 def create_bucket(bucket_name, region=None):
     try:
         if region is None:
@@ -119,8 +117,6 @@ def upload_file(file_name, bucket_name, object_name):
     return True
 
 # read from bucket
-
-
 def read_from_bucket(bucket_name, path, object_name):
     # check if bucket exists
     bucket = s3_res.Bucket(bucket_name)
@@ -137,8 +133,6 @@ def get_instance_id():
     return response[0]['Instances'][0]['InstanceId']
 # EC2
 # create instances (ami code)
-
-
 def create_instance(key_name, sec_group_ids, image_id='ami-0ee8cf7b8a34448a6', instance_type='t2.micro', min_count=1, max_count=1):
 
     instancelist = ec2_res.create_instances(

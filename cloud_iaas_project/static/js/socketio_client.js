@@ -1,19 +1,23 @@
+// Socket connection variable
 var socket;
+// Messages to display as INFO logs
 const WAIT_CONNECT_MSG = 'Establishing connection with server...'
 const START_PROCESS_MSG = 'All images uploaded successfully, Image Processing was started in parallel';
 const CONTINUE_PROCESS_MSG = 'Info about results processed is -> ';
+// Connecting to web sockets
 function connect() {
     var url = 'http://' + document.domain + ':' + location.port
     console.log('url', url)
     socket = io.connect(url);
     console.log('socket id ', socket['id']);
     var counter = 0;
+    // start of socket event listeners
     socket.on('connect', function () {
+        // on upload start, change message
         console.log('connected socket-io');
         const SERVER_ESTB_MSG = 'Connection with server established...';
         displayMessage(SERVER_ESTB_MSG);
         addToDiv('logs', SERVER_ESTB_MSG)
-        // on upload start, change message
     });
 
     socket.on('upload_start', (data) => {
@@ -45,6 +49,7 @@ function connect() {
         displayMessage(DISC_MSG);
         addToDiv('logs', DISC_MSG);
     })
+    // show results as they arrive
     socket.on('partial_result', (response) => {
         var respObj = JSON.parse(response)
         counter += 1;
@@ -57,6 +62,7 @@ function connect() {
 
 connect()
 
+// helper functions
 function displayMessage(message) {
     var x = document.getElementById('info');
     if (x) {
@@ -74,6 +80,7 @@ function addToDiv(div_id, message, className = '') {
     }
 }
 
+// alignment and arrangement of results logic
 const DIV_PREFIX = 'log-container-';
 const MAX_IN_DIV = 3;
 var div_id_num = 1
@@ -97,7 +104,7 @@ function arrangeInDiv(div_id, message, className = '') {
     last_div.appendChild(y)
 }
 
-
+// local testing generator
 function generator() {
     random_results = [
         'im_copy_age.jpeg==result_2342',

@@ -5,11 +5,10 @@ import torchvision.models as models
 import torchvision.transforms as transforms
 import torch
 from helper import *
-import time
 print('importing finished')
+
+
 # Start of image_classification function
-
-
 def image_classification(job_id):
     img = Image.open(r"{x}".format(x=job_id))
     model = models.resnet18(pretrained=True)
@@ -21,7 +20,6 @@ def image_classification(job_id):
         labels = json.load(f)
     result = labels[np.array(predicted)[0]]
     return(result)
-
 # end of function
 
 
@@ -30,7 +28,7 @@ request_queue_url = get_queue_url(REQUEST_QUEUE_NAME)
 response_queue_url = get_queue_url(RESPONSE_QUEUE_NAME)
 
 jobs_processed = 0
-
+# Number of tries for receiving message from queue
 CURR_RETRIES = 0
 while (CURR_RETRIES < MAX_RETRIES):
     # 1) receive message from request queue
@@ -67,14 +65,12 @@ while (CURR_RETRIES < MAX_RETRIES):
         receipt_handle = message['ReceiptHandle']
         delete_message(request_queue_url, receipt_handle)
         print('deleted message from queue')
-
-# 6) Listen for requests before terminating
         CURR_RETRIES = 0
         jobs_processed += 1
     else:
         CURR_RETRIES += 1
 
-# 7) Add logic to terminate instance
+# 7) logic to terminate instance
 instanceid_to_kill = get_instance_id()
 print('instance id - {}, processed {} jobs and will be terminated now'.format(
     instanceid_to_kill, jobs_processed))

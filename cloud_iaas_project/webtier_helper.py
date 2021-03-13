@@ -7,16 +7,12 @@ import time
 
 # post / upload images and start aws functions
 # aws functions using helper ->
-
-
 def process_image(request_queue_url, path, object_name, job_id):
-    # TODO: Add uniqueness to filename
     # store images to s3
     print('uploading file {} to {}'.format(object_name, BUCKET_NAME))
     upload_file(path, BUCKET_NAME, '{}{}'.format(S3_INPUT_FOLDER, object_name))
 
     # queue image_name in request queue
-    # TODO: Fill these and include job id somewhere!
     message_attr = {}
     body_object = {
         'task_id': object_name,
@@ -26,8 +22,9 @@ def process_image(request_queue_url, path, object_name, job_id):
     print('sending message {} to {} '.format(body, request_queue_url))
     send_message(request_queue_url, message_attr, job_id, body)
 
-
+# function to create app tier instances
 def spawn_processing_apps(request_queue_url, job_id):
+    # get queue length
     queue_length = get_one_queue_attribute(request_queue_url)
     queue_length = int(queue_length)
     print('queue length is {}'.format(queue_length))
@@ -68,24 +65,19 @@ def get_running_app_tiers_ids():
             instance_ids.append(instance.id)
     return len(instance_ids)
 
-# start listening to response queue for results
-
-
+# starts listening to response queue for results
 def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
-    # queue_length = get_one_queue_attribute(response_queue_url)
     results_received = 0
     job_length = job_dictionary[job_id]
     socketio.emit('processing_start', job_length)
     print('Starting to listen for {} results '.format(job_length))
-    # TODO: IMPROVE THIS LOOP!!!!
     while results_received != job_length:
         print('Trying to receive message at {}'.format(time.time()))
-        # TODO: insert logic to receive messages!??
         resp = receive_message(response_queue_url, 1)
-        # once received, increase counter...
         if 'Messages' in resp:
             message = resp['Messages'][0]
             result = message['Body']
+            # once received, increase counter...
             print('result found as {} , processing'.format(result))
             results_received += 1
             # send results back to user using sockets
@@ -93,7 +85,7 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
                 'result':result,
                 'total':job_length
             }
-
+            # PASS result to front end using sockets
             socketio.emit(
                 'partial_result', json.dumps(response)
             )
@@ -104,7 +96,6 @@ def listen_for_results(socketio, response_queue_url, job_id, job_dictionary):
     print('processing has ended for job with {} results'.format(job_length))
     print('-'*50)
     socketio.emit('processing_end', '')
-    # TODO: when all results recieved, verify all apptier instances are stopped
 
 
 def setup_aws_resources():
